@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="HAORU — B2B-платформа для выбора экспедиторов и организации грузоперевозок из Китая в Россию.">
+  <meta name="theme-color" content="#f4f3ef">
+  <title>HAORU — логистическая платформа Китай → Россия</title>
+  <link rel="stylesheet" href="styles.css?v=20261112-5">
+</head>
+<body class="home-page product-home">
+  <header class="topbar product-nav dark-text">
+    <a class="wordmark product-wordmark" href="index.html" aria-label="HAORU — главная">
+      <i class="brand-icon"><img src="haoru-dragon-user.png" alt=""></i>
+      <span>HAORU<small>好路 · B2B LOGISTICS</small></span>
+    </a>
+    <nav aria-label="Основная навигация">
+      <a href="#product" data-i18n="nav.platform">Платформа</a>
+      <a href="#how" data-i18n="nav.how">Как работает</a>
+      <a href="#roles" data-i18n="nav.forWhom">Для кого</a>
+      <a href="#trust" data-i18n="nav.security">Безопасность</a>
+      <a href="about.html" data-i18n="nav.about">О нас</a>
+    </nav>
+    <div class="top-actions">
+      <button class="lang" data-action="language">RU <span>/ 中文</span></button>
+      <button class="nav-login" data-action="login" data-i18n="nav.login">Войти</button>
+      <button class="nav-primary" data-auth-role="client" data-i18n="nav.start">Начать</button>
+    </div>
+    <button class="mobile-nav" aria-label="Меню">☰</button>
+  </header>
+
+  <main>
+    <section class="product-hero" id="product">
+      <div class="hero-copy-new">
+        <p class="product-kicker" data-i18n="newHero.kicker"><span></span> B2B-маркетплейс перевозок из Китая</p>
+        <h1 data-i18n="newHero.title">Сравните предложения<br>экспедиторов<br>и выберите условия<br><em>перевозки из Китая</em></h1>
+        <p class="hero-summary" data-i18n="newHero.text">Опишите груз один раз. Компании с проверенными регистрационными данными предложат цену, срок и состав услуг — всё в едином формате.</p>
+        <div class="hero-actions">
+          <button class="button-main" data-auth-role="client"><span data-i18n="newHero.clientCta">Разместить заявку</span><i>↗</i></button>
+          <button class="button-secondary" data-auth-role="forwarder"><span data-i18n="newHero.forwarderCta">Я экспедитор</span><i>→</i></button>
+        </div>
+        <div class="hero-proof" aria-label="Ключевые принципы">
+          <span data-i18n="newHero.proof1"><i>✓</i> Проверяем регистрационные данные</span>
+          <span data-i18n="newHero.proof2"><i>✓</i> Предложения в едином формате</span>
+        </div>
+      </div>
+
+      <div class="product-stage" aria-label="Демонстрация интерфейса платформы">
+        <div class="stage-glow"></div>
+        <div class="app-window">
+          <div class="app-window-head">
+            <div class="app-mini-brand"><b>好路</b><span>HAORU</span></div>
+            <div class="app-window-nav"><i></i><i></i><i></i></div>
+            <span class="demo-label" data-i18n="demo.label">Демо интерфейса</span>
+          </div>
+          <div class="app-layout">
+            <aside class="app-sidebar" aria-hidden="true">
+              <b>Обзор</b><span class="active">Заявки</span><span>Предложения</span><span>Сделки</span>
+              <div class="side-user"><i>Н</i><small>Грузовладелец</small></div>
+            </aside>
+            <div class="app-content">
+              <div class="request-heading">
+                <div><small data-i18n="demo.request">Заявка HR-1048</small><h2>Гуанчжоу <i>→</i> Москва</h2></div>
+                <span class="status-live"><i></i><span data-i18n="demo.auction">Приём предложений</span></span>
+              </div>
+              <div class="request-specs">
+                <span><small data-i18n="demo.cargo">Груз</small><b>420 кг · 2,4 м³</b></span>
+                <span><small data-i18n="demo.type">Формат</small><b>Карго</b></span>
+                <span><small data-i18n="demo.ready">Готов к отправке</small><b>12 ноября</b></span>
+              </div>
+              <div class="offers-title"><span data-i18n="demo.offers">Предложения экспедиторов</span><b>3</b></div>
+              <div class="offer-card best">
+                <div class="offer-company"><i>龙</i><span><b>Dragon Bridge</b><small><em>✓</em> <span data-i18n="demo.verified">Регистрационные данные проверены</span></small></span></div>
+                <div class="offer-metric"><small data-i18n="demo.price">Цена</small><b>186 000 ₽</b></div>
+                <div class="offer-metric"><small data-i18n="demo.term">Срок</small><b>17 дней</b></div>
+                <span class="offer-badge best-price" data-i18n="demo.bestPrice">Самая низкая цена</span>
+              </div>
+              <div class="offer-card">
+                <div class="offer-company"><i class="blue">云</i><span><b>Yunhe Logistics</b><small><em>✓</em> <span data-i18n="demo.verified">Регистрационные данные проверены</span></small></span></div>
+                <div class="offer-metric"><small data-i18n="demo.price">Цена</small><b>198 000 ₽</b></div>
+                <div class="offer-metric"><small data-i18n="demo.term">Срок</small><b>14 дней</b></div>
+                <span class="offer-badge fast" data-i18n="demo.fastest">Самый короткий срок</span>
+              </div>
+              <div class="offer-card muted">
+                <div class="offer-company"><i class="dark">海</i><span><b>SinoLine</b><small><em>✓</em> <span data-i18n="demo.verified">Регистрационные данные проверены</span></small></span></div>
+                <div class="offer-metric"><small data-i18n="demo.price">Цена</small><b>214 000 ₽</b></div>
+                <div class="offer-metric"><small data-i18n="demo.term">Срок</small><b>20 дней</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-note note-one"><i>↓</i><span><small data-i18n="demo.saving">Разница в цене</small><b>28 000 ₽</b></span></div>
+        <div class="floating-note note-two"><i>✓</i><span><small data-i18n="demo.choice">Вы выбираете</small><b data-i18n="demo.compare">Сравнить и выбрать</b></span></div>
+      </div>
+    </section>
+
+    <section class="scope-strip" aria-label="Направление и виды перевозки">
+      <div><span>中国</span><b data-i18n="scope.route">Китай → Россия</b></div>
+      <p data-i18n="scope.text">Карго и официальная логистика</p>
+      <ul><li data-i18n="scope.rail">Ж/д</li><li data-i18n="scope.auto">Авто</li><li data-i18n="scope.sea">Море</li><li data-i18n="scope.air">Авиа</li></ul>
+    </section>
+
+    <section class="how-section" id="how">
+      <div class="section-heading">
+        <p class="product-kicker" data-i18n="newHow.kicker"><span></span> Как работает HAORU</p>
+        <h2 data-i18n="newHow.title">От заявки<br>до выбранного экспедитора</h2>
+        <p data-i18n="newHow.text">HAORU собирает предложения по одной заявке и показывает цену, срок и состав услуг в едином формате. Экспедитора выбираете вы.</p>
+      </div>
+      <div class="process-grid">
+        <article><span>01</span><div class="process-icon request-icon"><i></i><i></i><i></i></div><h3 data-i18n="newHow.step1Title">Опишите перевозку</h3><p data-i18n="newHow.step1Text">Укажите маршрут, параметры груза и необходимые услуги.</p></article>
+        <article><span>02</span><div class="process-icon bid-icon"><i></i><i></i><i></i></div><h3 data-i18n="newHow.step2Title">Получите предложения экспедиторов</h3><p data-i18n="newHow.step2Text">Компании предложат цену, срок и состав перевозки.</p></article>
+        <article><span>03</span><div class="process-icon compare-icon"><i></i><i></i><i></i></div><h3 data-i18n="newHow.step3Title">Сравните условия и выберите</h3><p data-i18n="newHow.step3Text">Сопоставьте предложения в едином формате и выберите экспедитора.</p></article>
+      </div>
+    </section>
+
+    <section class="compare-section-new">
+      <div class="compare-copy">
+        <p class="product-kicker light" data-i18n="compare.kicker"><span></span> Сравнение предложений</p>
+        <h2 data-i18n="compare.title">Цена, срок и услуги —<br><em>в одном сравнении</em></h2>
+        <p data-i18n="compare.text">Сразу видно, сколько стоит перевозка, сколько она займёт и какие услуги входят в предложение: таможенное оформление, доставка до адреса и другие условия.</p>
+        <button class="button-main light-button" data-auth-role="client"><span data-i18n="compare.cta">Разместить заявку</span><i>↗</i></button>
+      </div>
+      <div class="compare-board" aria-label="Демонстрационное сравнение предложений">
+        <div class="compare-board-head"><span data-i18n="compare.parameter">Параметр</span><b>Dragon Bridge<small data-i18n="compare.optimal">Самая низкая цена</small></b><b>Yunhe Logistics</b><b>SinoLine</b></div>
+        <div><span data-i18n="demo.price">Цена</span><b class="selected">186 000 ₽</b><b>198 000 ₽</b><b>214 000 ₽</b></div>
+        <div><span data-i18n="demo.term">Срок</span><b class="selected">17 дней</b><b>14 дней</b><b>20 дней</b></div>
+        <div><span data-i18n="compare.transport">Транспорт</span><b class="selected">Авто + ж/д</b><b>Ж/д</b><b>Море + авто</b></div>
+        <div><span data-i18n="compare.customs">Таможня</span><b class="selected"><i>✓</i> <span data-i18n="compare.included">Включено</span></b><b><i>✓</i> <span data-i18n="compare.included">Включено</span></b><b data-i18n="compare.separate">Отдельно</b></div>
+        <div><span data-i18n="compare.delivery">Доставка до адреса</span><b class="selected"><i>✓</i></b><b><i>✓</i></b><b><i>✓</i></b></div>
+        <div class="compare-actions"><span></span><button data-auth-role="client" data-i18n="compare.choose">Выбрать</button><button data-auth-role="client" data-i18n="compare.details">Подробнее</button><button data-auth-role="client" data-i18n="compare.details">Подробнее</button></div>
+        <small class="board-caption" data-i18n="demo.caption">Цены и сроки приведены для примера.</small>
+      </div>
+    </section>
+
+    <section class="role-section-new" id="roles">
+      <div class="section-heading horizontal">
+        <div><p class="product-kicker" data-i18n="rolesNew.kicker"><span></span> Для грузовладельцев и экспедиторов</p><h2 data-i18n="rolesNew.title">Грузовладельцам — выбор.<br>Экспедиторам — новые заявки.</h2></div>
+        <p data-i18n="rolesNew.text">Компании сравнивают условия перевозки. Экспедиторы находят подходящие заявки и предлагают свои услуги.</p>
+      </div>
+      <div class="role-product-grid">
+        <article class="role-product-card client-product">
+          <div class="role-card-copy"><span>01 / RUS</span><p data-i18n="roles.client.for">Для компаний, которые возят грузы из Китая</p><h3 data-i18n="rolesNew.clientTitle">Найти<br>экспедитора</h3><ul><li data-i18n="roles.client.item1">Описать перевозку один раз</li><li data-i18n="roles.client.item2">Получить предложения нескольких компаний</li><li data-i18n="roles.client.item3">Сравнить цену, срок и состав услуг</li></ul><button data-auth-role="client"><span data-i18n="rolesNew.clientCta">Разместить заявку</span><i>↗</i></button></div>
+          <div class="mini-dashboard client-dashboard"><div class="mini-top"><b data-i18n="rolesNew.myRequests">Мои заявки</b><span>+ <span data-i18n="rolesNew.newRequest">Новая</span></span></div><div class="mini-kpi"><span><small data-i18n="rolesNew.active">Активные</small><b>02</b></span><span><small data-i18n="demo.offers">Предложения</small><b>05</b></span></div><div class="mini-request"><small>HR-1048 · <i></i> <span data-i18n="demo.auction">Приём предложений</span></small><b>Гуанчжоу → Москва</b><span>420 кг · 2,4 м³</span><div><em>3 <span data-i18n="rolesNew.offersShort">предложения</span></em><strong>от 186 000 ₽</strong></div></div></div>
+        </article>
+        <article class="role-product-card forwarder-product">
+          <div class="role-card-copy"><span>02 / 中国</span><p data-i18n="roles.forwarder.for">Для китайских экспедиторов и логистических компаний</p><h3 data-i18n="rolesNew.forwarderTitle">Получать заявки<br>на перевозку</h3><ul><li data-i18n="roles.forwarder.item1">Находить заявки по своим маршрутам</li><li data-i18n="roles.forwarder.item2">Предлагать цену, срок и условия</li><li data-i18n="roles.forwarder.item3">Находить новых клиентов</li></ul><button data-auth-role="forwarder"><span data-i18n="rolesNew.forwarderCta">Стать экспедитором</span><i>↗</i></button></div>
+          <div class="mini-dashboard forwarder-dashboard"><div class="mini-top"><b data-i18n="rolesNew.cargoFeed">Заявки на перевозку</b><span data-i18n="rolesNew.filter">Фильтр</span></div><div class="feed-card"><small><i></i> <span data-i18n="rolesNew.newCargo">Новая заявка</span></small><b>Шэньчжэнь → Казань</b><p>1 850 кг · 6 м³ · Ж/д</p><div><span><small data-i18n="rolesNew.budget">Бюджет</small><b>до 5 000 $</b></span><button data-auth-role="forwarder" data-i18n="rolesNew.offer">Предложить условия</button></div></div><div class="feed-card subtle"><small><i></i> <span data-i18n="demo.auction">Приём предложений</span></small><b>Иу → Санкт-Петербург</b><p>760 кг · 4,1 м³ · Авто</p></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="trust-section-new" id="trust">
+      <div class="trust-heading"><p class="product-kicker" data-i18n="trustNew.kicker"><span></span> Проверка и прозрачность</p><h2 data-i18n="trustNew.title">Понятные правила<br>до выбора экспедитора</h2></div>
+      <div class="trust-list">
+        <article><span>01</span><div class="line-icon verify-icon">✓</div><h3 data-i18n="trust.card1.title">Проверяем регистрационные данные</h3><p data-i18n="trust.card1.text">Перед доступом к заявкам экспедитор предоставляет документы и сведения о компании.</p></article>
+        <article><span>02</span><div class="line-icon lock-icon">⌁</div><h3 data-i18n="trust.card2.title">Контакты открываются после выбора</h3><p data-i18n="trust.card2.text">До выбора экспедитора стороны общаются через платформу.</p></article>
+        <article><span>03</span><div class="line-icon history-icon">↻</div><h3 data-i18n="trust.card3.title">История предложений сохраняется</h3><p data-i18n="trust.card3.text">Цена, срок, состав услуг и изменения предложения фиксируются в HAORU.</p></article>
+      </div>
+    </section>
+
+    <section class="product-cta">
+      <div><span class="cta-mark">好路</span><p data-i18n="ctaNew.kicker">Начните с одной заявки</p><h2 data-i18n="ctaNew.title">Одна заявка —<br>несколько вариантов перевозки</h2><span class="cta-support" data-i18n="ctaNew.text">Сравните предложения экспедиторов и выберите подходящие условия.</span></div>
+      <div class="cta-actions"><button class="button-main dark-button" data-auth-role="client"><span data-i18n="newHero.clientCta">Разместить заявку</span><i>↗</i></button><button class="button-secondary red-outline" data-auth-role="forwarder"><span data-i18n="ctaNew.forwarder">Стать экспедитором</span><i>→</i></button></div>
+    </section>
+  </main>
+
+  <footer class="product-footer">
+    <a class="wordmark product-wordmark footer-brand" href="index.html"><i class="brand-icon"><img src="haoru-dragon-user.png" alt=""></i><span>HAORU<small>好路 · 中国 → 俄罗斯</small></span></a>
+    <p data-i18n="footer.text">Платформа для выбора экспедитора<br>на маршрутах Китай → Россия</p>
+    <div><a href="#product" data-i18n="nav.platform">Платформа</a><a href="#how" data-i18n="nav.how">Как работает</a><a href="about.html" data-i18n="nav.about">О нас</a></div>
+    <div class="footer-contact"><a href="https://t.me/nvkv757" target="_blank" rel="noreferrer">Telegram: @nvkv757</a><a href="mailto:info@haoru.ru">info@haoru.ru</a></div>
+    <span data-i18n="footer.stage">Тестовая версия · 2026</span>
+  </footer>
+
+  <div class="overlay" hidden></div>
+  <section class="modal auth-modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+    <button class="modal-x" data-close aria-label="Закрыть">×</button><span class="modal-seal">好路</span>
+    <p class="section-label" id="authEyebrow" data-i18n="auth.eyebrow">Аккаунт HAORU</p><h2 id="authTitle" data-i18n="auth.registerTitle">Регистрация</h2>
+    <div class="auth-tabs"><button type="button" class="active" data-auth-mode="register" data-i18n="auth.registerTab">Регистрация</button><button type="button" data-auth-mode="login" data-i18n="auth.loginTab">Вход</button></div>
+    <form id="registerForm" class="auth-form">
+      <input type="hidden" name="role" value="client">
+      <div class="auth-role-summary"><i id="authRoleMark">货</i><span><small data-i18n="auth.selectedRole">Выбранная роль</small><b id="authRoleName">Грузовладелец</b></span></div>
+      <label><span data-i18n="auth.fullName">Имя и фамилия *</span><input name="fullName" autocomplete="name" required></label>
+      <div class="forwarder-only" hidden>
+        <label><span data-i18n="auth.company">Название компании *</span><input name="company" autocomplete="organization"></label>
+        <label><span data-i18n="auth.city">Город в Китае *</span><input name="city" placeholder="Гуанчжоу"></label>
+        <label><span>WeChat</span><input name="wechat" placeholder="wechat_id"></label>
+      </div>
+      <label><span data-i18n="auth.phone">Телефон *</span><input name="phone" type="tel" autocomplete="tel" required></label>
+      <label><span>Email *</span><input name="email" type="email" autocomplete="email" required></label>
+      <label><span data-i18n="auth.password">Пароль *</span><input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+      <label class="auth-consent"><input type="checkbox" required checked><span data-i18n="auth.consent">Я принимаю правила платформы и согласен на обработку данных.</span></label>
+      <p class="form-message" id="registerMessage" role="status"></p>
+      <button class="auth-submit" type="submit"><span data-i18n="auth.create">Создать аккаунт</span> →</button>
+    </form>
+    <form id="loginForm" class="auth-form" hidden>
+      <label><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+      <label><span data-i18n="auth.password">Пароль</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <p class="form-message" id="loginMessage" role="status"></p>
+      <button class="auth-submit" type="submit"><span data-i18n="auth.enter">Войти в платформу</span> →</button>
+    </form>
+    <p class="auth-security" data-i18n="auth.security">Роль закрепляется за аккаунтом и определяет доступный кабинет.</p>
+  </section>
+  <div class="toast" id="toast" role="status"><i>✓</i><span><b></b><small></small></span></div>
+  <script src="app/supabase-config.js?v=20261112-5"></script><script src="app/auth-client.js?v=20261112-5"></script><script src="app.js?v=20261112-5"></script>
+</body>
+</html>

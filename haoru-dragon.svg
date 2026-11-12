@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-labelledby="title desc">
+  <title id="title">HAORU origami dragon</title>
+  <desc id="desc">Geometric paper dragon in flight</desc>
+  <path d="M7 38 25 11l7 18 11-22 4 23 18-9-12 19 12 9-24-2-13 18-2-22Z" fill="#f4eadb"/>
+  <path d="m25 11 7 18 11-22-4 34Z" fill="#171614" opacity=".18"/>
+  <path d="m43 7 4 23 18-9-19 21Z" fill="#d9c9b6"/>
+  <path d="m7 38 32 3-13 2Z" fill="#fff7e9"/>
+  <path d="m26 43 13-2 2 6-13 18Z" fill="#d9c9b6"/>
+  <path d="m39 41 26 8-24-2Z" fill="#fff7e9"/>
+  <circle cx="50.4" cy="28.5" r="1.7" fill="#d8392f"/>
+</svg>

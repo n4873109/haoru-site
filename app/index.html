@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171614">
+  <meta name="description" content="Логистическая платформа HAORU для грузовладельцев и экспедиторов.">
+  <title>HAORU Platform — личный кабинет</title>
+  <link rel="stylesheet" href="platform.css?v=20261112-5">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-topbar">
+      <a class="app-brand" href="../index.html" aria-label="HAORU — вернуться на сайт">
+        <span class="app-brand-mark"><img src="../haoru-dragon-user.png" alt=""></span>
+        <span>HAORU<small>好路 · Platform</small></span>
+      </a>
+      <div class="topbar-context">
+        <span>Рабочая платформа</span>
+        <b>Китай → Россия</b>
+      </div>
+      <div class="demo-pill"><i></i> Закрытая тестовая версия</div>
+      <div class="topbar-actions">
+        <button class="icon-button mobile-menu" id="mobileMenuButton" aria-label="Открыть меню">☰</button>
+        <button class="language-button" id="languageButton">RU <span>/ 中文</span></button>
+        <button class="help-button" data-action="help" aria-label="Помощь">?</button>
+        <button class="profile-button" id="profileButton" aria-haspopup="true" aria-expanded="false"><span id="profileInitials">ИН</span><b id="profileName">Иван Новиков<small id="profileRole">Тестовый аккаунт</small></b><i>⌄</i></button>
+      </div>
+    </header>
+
+    <aside class="app-sidebar" id="appSidebar" aria-label="Навигация платформы">
+      <div class="role-switcher" id="roleSwitcher">
+        <small>Контур работы</small>
+        <div class="role-identity" id="roleIdentity"><i>货</i><span>Грузовладелец<small>Кабинет клиента</small></span><b>✓</b></div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-trust">
+        <span>验</span>
+        <div><b>Данные защищены</b><small>Контакты открываются только после выбора исполнителя.</small></div>
+      </div>
+      <a class="back-to-site" href="../index.html">← Вернуться на основной сайт</a>
+    </aside>
+
+    <main class="app-main">
+      <section class="role-gate" id="roleGate" hidden>
+        <div class="gate-copy">
+          <p class="overline">Цифровая биржа грузоперевозок</p>
+          <h1>Выберите свою<br><em>сторону маршрута</em></h1>
+          <p>Зарегистрируйтесь как грузовладелец или экспедитор. После регистрации роль аккаунта изменить нельзя.</p>
+          <a href="../index.html">Посмотреть основной сайт →</a>
+        </div>
+        <div class="gate-cards">
+          <button class="gate-card client" data-auth-redirect="client">
+            <span class="gate-number">01 / RUS</span><i>货</i>
+            <small>Для бизнеса и частных заказчиков</small>
+            <b>Мне нужно<br>доставить груз</b>
+            <em>Открыть кабинет <span>→</span></em>
+          </button>
+          <button class="gate-card forwarder" data-auth-redirect="forwarder">
+            <span class="gate-number">02 / 中国</span><i>运</i>
+            <small>面向中国货运代理与物流公司</small>
+            <b>Я доставляю<br>грузы</b>
+            <em>进入货运平台 <span>→</span></em>
+          </button>
+        </div>
+      </section>
+
+      <section class="workspace" id="workspace" hidden>
+        <div class="page-heading" id="pageHeading"></div>
+        <div class="view-root" id="viewRoot" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <nav class="mobile-dock" id="mobileDock" aria-label="Мобильная навигация"></nav>
+  </div>
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <section class="modal request-wizard" id="requestWizard" role="dialog" aria-modal="true" aria-labelledby="requestWizardTitle" hidden>
+    <header class="modal-header">
+      <div><p class="overline">Новая заявка</p><h2 id="requestWizardTitle">Создание перевозки</h2></div>
+      <button class="modal-close" data-close-modal aria-label="Закрыть">×</button>
+    </header>
+    <div class="wizard-progress"><span class="active">1<small>Маршрут и груз</small></span><i></i><span>2<small>Условия</small></span><i></i><span>3<small>Проверка</small></span></div>
+    <form id="requestWizardForm">
+      <div class="wizard-step" data-step="1">
+        <div class="form-grid two">
+          <label><span>Откуда в Китае *</span><input name="from" value="Гуанчжоу" required></label>
+          <label><span>Куда в России *</span><input name="to" value="Москва" required></label>
+          <label><span>Категория груза *</span><select name="category" required><option>Товары для маркетплейсов</option><option>Электроника</option><option>Одежда и текстиль</option><option>Оборудование</option><option>Мебель и интерьер</option></select></label>
+          <label><span>Количество мест</span><input name="places" type="number" min="1" value="12"></label>
+        </div>
+        <div class="form-grid three compact-top">
+          <label><span>Вес, кг *</span><input name="weight" type="number" min="1" value="420" required></label>
+          <label><span>Объём, м³ *</span><input name="volume" type="number" min="0.1" step="0.1" value="2.4" required></label>
+          <label><span>Груз будет готов *</span><input name="ready" type="date" required></label>
+        </div>
+        <label class="upload-zone" for="cargoPhotoInput" tabindex="0">
+          <input id="cargoPhotoInput" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" hidden>
+          <span class="upload-copy" id="cargoPhotoCopy"><b>＋ Добавить фото груза</b><small>JPG, PNG, WEBP или PDF · до 10 МБ</small></span>
+          <span class="upload-preview" id="cargoPhotoPreview" hidden></span>
+        </label>
+      </div>
+      <div class="wizard-step" data-step="2" hidden>
+        <div class="choice-block"><span>Тип логистики *</span><div class="segmented"><label><input type="radio" name="logistics" value="Карго" checked><b>Карго<small>Быстрее и проще</small></b></label><label><input type="radio" name="logistics" value="Официальная"><b>Официальная<small>С таможенным оформлением</small></b></label></div></div>
+        <div class="form-grid two">
+          <label><span>Предпочтительный транспорт</span><select name="transport"><option>Не важно</option><option>Авто</option><option>Ж/д</option><option>Море</option><option>Авиа</option><option>Мультимодальный</option></select></label>
+          <label><span>Желаемый срок доставки</span><select name="delivery"><option>Любой разумный срок</option><option>До 10 дней</option><option>До 20 дней</option><option>До 30 дней</option></select></label>
+          <label><span>Целевой бюджет</span><div class="money-input"><input name="budget" type="number" value="190000"><select name="currency"><option>RUB</option><option>CNY</option><option>USD</option></select></div></label>
+          <label><span>Срок торгов</span><select name="auctionDuration"><option value="24">24 часа</option><option value="48" selected>48 часов</option><option value="72">72 часа</option><option value="168">7 дней</option></select></label>
+        </div>
+        <div class="services"><span>Дополнительные услуги</span><div><label><input type="checkbox" name="services" value="Страхование" checked> Страхование</label><label><input type="checkbox" name="services" value="Консолидация"> Консолидация</label><label><input type="checkbox" name="services" value="Таможенное оформление" checked> Таможенное оформление</label><label><input type="checkbox" name="services" value="До двери" checked> Доставка до двери</label></div></div>
+        <label class="wide-label"><span>Комментарий и специальные требования</span><textarea name="details" rows="3" placeholder="Например: нужна обрешётка, груз содержит аккумуляторы"></textarea></label>
+      </div>
+      <div class="wizard-step review-step" data-step="3" hidden>
+        <div class="review-banner"><span>好路</span><div><b>Всё готово к публикации</b><small>После публикации экспедиторы смогут отправлять предложения в течение выбранного срока.</small></div></div>
+        <div class="review-card" id="requestReview"></div>
+        <label class="consent"><input type="checkbox" required checked> <span>Я подтверждаю корректность параметров груза. Существенные условия нельзя будет изменить после первой ставки.</span></label>
+      </div>
+      <footer class="modal-footer"><button type="button" class="button ghost" id="wizardBack" hidden>← Назад</button><button type="button" class="button ghost" data-save-draft>Сохранить черновик</button><button type="button" class="button primary" id="wizardNext">Продолжить →</button><button type="submit" class="button primary" id="wizardPublish" hidden>Опубликовать заявку →</button></footer>
+    </form>
+  </section>
+
+  <section class="modal bid-modal" id="bidModal" role="dialog" aria-modal="true" aria-labelledby="bidModalTitle" hidden>
+    <header class="modal-header"><div><p class="overline">Коммерческое предложение</p><h2 id="bidModalTitle">Новая ставка</h2></div><button class="modal-close" data-close-modal aria-label="Закрыть">×</button></header>
+    <div class="selected-load" id="selectedLoadSummary"></div>
+    <form id="bidForm">
+      <div class="form-grid three">
+        <label><span>Стоимость *</span><input name="price" type="number" value="182000" min="1" required></label>
+        <label><span>Валюта *</span><select name="currency"><option>RUB</option><option>CNY</option><option>USD</option></select></label>
+        <label><span>Срок, дней *</span><input name="days" type="number" value="17" min="1" required></label>
+      </div>
+      <div class="form-grid two">
+        <label><span>Вид транспорта *</span><select name="transport"><option>Авто + ж/д</option><option>Ж/д</option><option>Море + авто</option><option>Авиа</option></select></label>
+        <label><span>Таможенное оформление *</span><select name="customs"><option>Включено</option><option>Оплачивается отдельно</option><option>Не требуется</option></select></label>
+      </div>
+      <div class="services"><span>Что входит в предложение</span><div><label><input type="checkbox" name="bidServices" value="Страхование" checked> Страхование</label><label><input type="checkbox" name="bidServices" value="До двери" checked> До двери</label><label><input type="checkbox" name="bidServices" value="Обрешётка"> Обрешётка</label><label><input type="checkbox" name="bidServices" value="Консолидация"> Консолидация</label></div></div>
+      <label class="wide-label"><span>Комментарий клиенту</span><textarea name="comment" rows="3" placeholder="Опишите ограничения и важные условия"></textarea></label>
+      <div class="bid-note">Конкуренты увидят цену и условия анонимно. Название вашей компании увидит только грузовладелец.</div>
+      <footer class="modal-footer"><button type="button" class="button ghost" data-close-modal>Отмена</button><button type="submit" class="button primary">Отправить предложение / 提交报价 →</button></footer>
+    </form>
+  </section>
+
+  <section class="modal confirm-modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Закрыть">×</button>
+    <span class="confirm-symbol">选</span>
+    <p class="overline">Подтверждение выбора</p>
+    <h2 id="confirmModalTitle">Выбрать экспедитора?</h2>
+    <div id="confirmOfferSummary"></div>
+    <p>Торги завершатся, а контакты сторон станут доступны друг другу. Это действие фиксируется в истории заявки.</p>
+    <footer class="modal-footer"><button class="button ghost" data-close-modal>Вернуться</button><button class="button primary" id="confirmChooseButton">Подтвердить выбор →</button></footer>
+  </section>
+
+  <div class="toast" id="toast" role="status"><i>✓</i><span><b>Готово</b><small>Действие выполнено</small></span></div>
+  <div class="profile-menu" id="profileMenu" hidden>
+    <button data-profile-action="profile"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i><span><b>Мой профиль</b><small>Личные данные и компания</small></span></button>
+    <button data-profile-action="settings"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0ZM12 2v3M12 19v3M2 12h3M19 12h3"/></svg></i><span><b>Настройки</b><small>Язык и уведомления</small></span></button>
+    <button data-profile-action="logout" class="danger"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 17l5-5-5-5M15 12H3M14 4h6v16h-6"/></svg></i><span><b>Выйти</b><small>Завершить текущую сессию</small></span></button>
+  </div>
+  <noscript>Для работы платформы необходимо включить JavaScript.</noscript>
+  <script src="supabase-config.js?v=20261112-5"></script>
+  <script src="auth-client.js?v=20261112-5"></script>
+  <script src="platform.js?v=20261112-5"></script>
+</body>
+</html>
