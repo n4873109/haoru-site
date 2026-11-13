@@ -1,0 +1,42 @@
+// City reference for the China → Russia routes. A request stores the city id when the typed name
+// matches a name or alias here (fromCity / toCity) and always keeps the typed text (from / to);
+// unknown cities are shown as typed. Add a city here, not in the dictionaries.
+// zh: standard simplified names; en: official romanization (pinyin for China).
+window.HAORU_CITIES = [
+  { id: 'guangzhou', country: 'CN', ru: 'Гуанчжоу', zh: '广州', en: 'Guangzhou', aliases: ['кантон', 'canton'] },
+  { id: 'shenzhen', country: 'CN', ru: 'Шэньчжэнь', zh: '深圳', en: 'Shenzhen', aliases: ['шеньчжень', 'шэньчжень', 'шеньжень'] },
+  { id: 'yiwu', country: 'CN', ru: 'Иу', zh: '义乌', en: 'Yiwu', aliases: [] },
+  { id: 'ningbo', country: 'CN', ru: 'Нинбо', zh: '宁波', en: 'Ningbo', aliases: [] },
+  { id: 'foshan', country: 'CN', ru: 'Фошань', zh: '佛山', en: 'Foshan', aliases: [] },
+  { id: 'shanghai', country: 'CN', ru: 'Шанхай', zh: '上海', en: 'Shanghai', aliases: [] },
+  { id: 'beijing', country: 'CN', ru: 'Пекин', zh: '北京', en: 'Beijing', aliases: ['бэйцзин'] },
+  { id: 'tianjin', country: 'CN', ru: 'Тяньцзинь', zh: '天津', en: 'Tianjin', aliases: [] },
+  { id: 'qingdao', country: 'CN', ru: 'Циндао', zh: '青岛', en: 'Qingdao', aliases: [] },
+  { id: 'xiamen', country: 'CN', ru: 'Сямынь', zh: '厦门', en: 'Xiamen', aliases: [] },
+  { id: 'hangzhou', country: 'CN', ru: 'Ханчжоу', zh: '杭州', en: 'Hangzhou', aliases: [] },
+  { id: 'dongguan', country: 'CN', ru: 'Дунгуань', zh: '东莞', en: 'Dongguan', aliases: [] },
+  { id: 'xian', country: 'CN', ru: 'Сиань', zh: '西安', en: "Xi'an", aliases: ['xian'] },
+  { id: 'chengdu', country: 'CN', ru: 'Чэнду', zh: '成都', en: 'Chengdu', aliases: ['ченду'] },
+  { id: 'chongqing', country: 'CN', ru: 'Чунцин', zh: '重庆', en: 'Chongqing', aliases: [] },
+  { id: 'wuhan', country: 'CN', ru: 'Ухань', zh: '武汉', en: 'Wuhan', aliases: [] },
+  { id: 'urumqi', country: 'CN', ru: 'Урумчи', zh: '乌鲁木齐', en: 'Urumqi', aliases: [] },
+  { id: 'harbin', country: 'CN', ru: 'Харбин', zh: '哈尔滨', en: 'Harbin', aliases: [] },
+  { id: 'suifenhe', country: 'CN', ru: 'Суйфэньхэ', zh: '绥芬河', en: 'Suifenhe', aliases: ['суйфуньхэ'] },
+  { id: 'manzhouli', country: 'CN', ru: 'Маньчжурия', zh: '满洲里', en: 'Manzhouli', aliases: ['маньчжоули'] },
+  { id: 'khorgos', country: 'CN', ru: 'Хоргос', zh: '霍尔果斯', en: 'Khorgos', aliases: ['horgos'] },
+  { id: 'moscow', country: 'RU', ru: 'Москва', zh: '莫斯科', en: 'Moscow', aliases: ['мск'] },
+  { id: 'saint-petersburg', country: 'RU', ru: 'Санкт-Петербург', zh: '圣彼得堡', en: 'Saint Petersburg', aliases: ['спб', 'питер', 'петербург', 'st petersburg'] },
+  { id: 'kazan', country: 'RU', ru: 'Казань', zh: '喀山', en: 'Kazan', aliases: [] },
+  { id: 'yekaterinburg', country: 'RU', ru: 'Екатеринбург', zh: '叶卡捷琳堡', en: 'Yekaterinburg', aliases: ['екб', 'ekaterinburg'] },
+  { id: 'novosibirsk', country: 'RU', ru: 'Новосибирск', zh: '新西伯利亚', en: 'Novosibirsk', aliases: ['нск'] },
+  { id: 'vladivostok', country: 'RU', ru: 'Владивосток', zh: '符拉迪沃斯托克', en: 'Vladivostok', aliases: ['海参崴'] },
+  { id: 'krasnodar', country: 'RU', ru: 'Краснодар', zh: '克拉斯诺达尔', en: 'Krasnodar', aliases: [] },
+  { id: 'rostov-on-don', country: 'RU', ru: 'Ростов-на-Дону', zh: '顿河畔罗斯托夫', en: 'Rostov-on-Don', aliases: ['ростов'] },
+  { id: 'samara', country: 'RU', ru: 'Самара', zh: '萨马拉', en: 'Samara', aliases: [] },
+  { id: 'nizhny-novgorod', country: 'RU', ru: 'Нижний Новгород', zh: '下诺夫哥罗德', en: 'Nizhny Novgorod', aliases: ['нижний', 'н. новгород'] },
+  { id: 'chelyabinsk', country: 'RU', ru: 'Челябинск', zh: '车里雅宾斯克', en: 'Chelyabinsk', aliases: [] },
+  { id: 'irkutsk', country: 'RU', ru: 'Иркутск', zh: '伊尔库茨克', en: 'Irkutsk', aliases: [] },
+  { id: 'khabarovsk', country: 'RU', ru: 'Хабаровск', zh: '哈巴罗夫斯克', en: 'Khabarovsk', aliases: [] },
+  { id: 'krasnoyarsk', country: 'RU', ru: 'Красноярск', zh: '克拉斯诺亚尔斯克', en: 'Krasnoyarsk', aliases: [] },
+  { id: 'ufa', country: 'RU', ru: 'Уфа', zh: '乌法', en: 'Ufa', aliases: [] }
+];

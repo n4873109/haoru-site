@@ -4,6 +4,22 @@
   const baseUrl = String(config.url || '').replace(/\/$/, '');
   const publishableKey = String(config.publishableKey || '');
   const isConfigured = /^https:\/\/.+\.supabase\.co$/i.test(baseUrl) && /^sb_publishable_/.test(publishableKey);
+  // Supabase error codes → dictionary keys. The server's own (English) text goes to the console only.
+  const ERROR_KEYS = {
+    invalid_credentials: 'error.invalidCredentials', invalid_grant: 'error.invalidCredentials',
+    user_already_exists: 'error.userExists', email_exists: 'error.userExists',
+    weak_password: 'error.weakPassword',
+    over_email_send_rate_limit: 'error.rateLimit', over_request_rate_limit: 'error.rateLimit',
+    email_not_confirmed: 'error.emailNotConfirmed',
+    email_address_invalid: 'error.invalidEmail', validation_failed: 'error.invalidEmail',
+    signup_disabled: 'error.signupDisabled', email_provider_disabled: 'error.signupDisabled'
+  };
+
+  // The message is in the current language; i18nKey lets the page re-translate it later.
+  function appError(key, extra = {}) {
+    const error = new Error(window.HaoruI18n ? window.HaoruI18n.t(key) : key);
+    return Object.assign(error, { i18nKey: key }, extra);
+  }
 
   function saveSession(session) {
     if (!session?.access_token) return null;
@@ -25,7 +41,7 @@
   }
 
   async function request(path, { method = 'GET', body, token, headers = {} } = {}) {
-    if (!isConfigured) throw new Error('Supabase пока не подключён к проекту HAORU');
+    if (!isConfigured) throw appError('error.notConfigured');
     let response;
     try {
       response = await fetch(`${baseUrl}${path}`, {
@@ -40,17 +56,15 @@
       });
     } catch {
       // fetch rejects only when no HTTP response arrived (offline, DNS, CORS, timeout).
-      const error = new Error('Нет связи, попробуйте позже');
-      error.network = true;
-      throw error;
+      throw appError('error.network', { network: true });
     }
     const contentType = response.headers.get('content-type') || '';
     const payload = contentType.includes('application/json') ? await response.json() : await response.text();
     if (!response.ok) {
-      const message = payload?.msg || payload?.message || payload?.error_description || payload?.error || 'Не удалось выполнить запрос';
-      const error = new Error(message);
-      error.status = response.status;
-      throw error;
+      const code = payload?.error_code || payload?.error;
+      const key = ERROR_KEYS[code] || (response.status === 429 ? 'error.rateLimit' : 'error.requestFailed');
+      console.warn('HAORU request failed', response.status, payload?.msg || payload?.message || payload?.error_description || payload);
+      throw appError(key, { status: response.status, code });
     }
     return payload;
   }
@@ -140,7 +154,7 @@
   async function uploadCargoPhoto(file, requestId) {
     const session = await getSession();
     const userId = session?.user?.id;
-    if (!session || !userId) throw new Error('Сначала войдите в аккаунт');
+    if (!session || !userId) throw appError('error.signInFirst');
     const safeName = String(file.name || 'cargo-photo').replace(/[^a-z0-9._-]+/gi, '-').toLowerCase();
     const path = `${userId}/${requestId}/${Date.now()}-${safeName}`;
     await request(`/storage/v1/object/cargo-photos/${encodeURI(path)}`, {

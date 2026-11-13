@@ -901,3 +901,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 /* Unread notifications (state.notificationsRead) */
 .activity-item.unread > i { background: var(--red-soft); color: var(--red); }
 .activity-item.unread b::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--red); vertical-align: middle; }
+
+/* i18n · 2026-11-13: language switch, keyed text wrappers keep the old look */
+.language-switch { display: inline-flex; align-items: center; gap: 2px; min-height: 36px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.language-switch button { min-height: 28px; padding: 0 9px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.language-switch button:hover { color: var(--ink); background: var(--surface-2); }
+.language-switch button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.services label > span { display: inline; margin: 0; color: inherit; font-size: inherit; font-weight: inherit; }
+.gate-card > em b { font-weight: inherit; }
