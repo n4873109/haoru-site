@@ -884,3 +884,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .workspace-grid { grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr); }
   .load-list-head, .load-row { grid-template-columns: minmax(220px, 1.25fr) minmax(140px, 1fr) 108px 124px 108px 76px; gap: 12px; }
 }
+
+/* Former inline style="" attributes from platform.js templates (CSP: style-src 'self') */
+.info-list.spaced { margin-top: 15px; }
+.button.block { width: 100%; margin-top: 15px; }
+.detail-stats.on-light { color: var(--ink); }
+.heading-actions.deal-actions { margin-top: 18px; justify-content: flex-start; }
+.activity-list.on-light { color: var(--ink); }
+.activity-list.on-light .activity-item { border-color: var(--line); }
+.activity-list.on-light .activity-item small, .activity-list.on-light .activity-item time { color: var(--muted); }
+.status.push-right { margin-left: auto; }

@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://iwmysekvjqwkhrihvxej.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#171614">
   <meta name="description" content="Логистическая платформа HAORU для грузовладельцев и экспедиторов.">
   <title>HAORU Platform — личный кабинет</title>
   <link rel="preload" href="../fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="platform.css?v=20261113-1">
+  <link rel="stylesheet" href="platform.css?v=20261113-2">
 </head>
 <body>
   <div class="app-shell">
@@ -160,8 +161,8 @@
     <button data-profile-action="logout" class="danger"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 17l5-5-5-5M15 12H3M14 4h6v16h-6"/></svg></i><span><b>Выйти</b><small>Завершить текущую сессию</small></span></button>
   </div>
   <noscript>Для работы платформы необходимо включить JavaScript.</noscript>
-  <script src="supabase-config.js?v=20261113-1"></script>
-  <script src="auth-client.js?v=20261113-1"></script>
-  <script src="platform.js?v=20261113-1"></script>
+  <script src="supabase-config.js?v=20261113-2"></script>
+  <script src="auth-client.js?v=20261113-2"></script>
+  <script src="platform.js?v=20261113-2"></script>
 </body>
 </html>
