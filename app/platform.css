@@ -1,6 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap');
+/* Self-hosted fonts (SIL OFL 1.1, see fonts/OFL-*.txt). CJK glyphs use system fonts via --serif-cjk / --sans-cjk. */
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url('../fonts/manrope-cyrillic.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url('../fonts/manrope-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:200 900;font-display:swap;src:url('../fonts/noto-serif-sc-cyrillic.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:200 900;font-display:swap;src:url('../fonts/noto-serif-sc-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
 :root {
+  --serif-cjk: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun";
+  --sans-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC";
   --ink: #1f1d1a;
   --ink-2: #2a2723;
   --muted: #5e5a54;
@@ -22,7 +28,7 @@
   --shadow: 0 16px 40px rgba(31, 29, 26, .10);
   --sidebar: 256px;
   --topbar: 72px;
-  font-family: Manrope, "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Manrope, var(--sans-cjk), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--canvas);
   font-synthesis: none;
@@ -185,7 +191,7 @@ img { max-width: 100%; }
   border-radius: 8px;
   background: var(--red-soft);
   color: var(--red);
-  font: 900 16px "Noto Serif SC", serif;
+  font: 900 16px "Noto Serif SC", var(--serif-cjk), serif;
   font-style: normal;
 }
 .role-identity > span { font-size: 11px; font-weight: 600; }
@@ -233,7 +239,7 @@ img { max-width: 100%; }
   background: var(--green-soft);
   color: #175f47;
 }
-.sidebar-trust > span { font: 900 21px "Noto Serif SC", serif; }
+.sidebar-trust > span { font: 900 21px "Noto Serif SC", var(--serif-cjk), serif; }
 .sidebar-trust b, .sidebar-trust small { display: block; }
 .sidebar-trust b { font-size: 9px; }
 .sidebar-trust small { margin-top: 4px; font-size: 8px; line-height: 1.45; opacity: .68; }
@@ -303,7 +309,7 @@ img { max-width: 100%; }
   border-radius: 10px;
   background: var(--red-soft);
   color: var(--red);
-  font: 900 17px "Noto Serif SC", serif;
+  font: 900 17px "Noto Serif SC", var(--serif-cjk), serif;
   font-style: normal;
 }
 body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color: var(--blue); }
@@ -344,7 +350,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .activity-list { display: grid; }
 .activity-item { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; min-height: 59px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.11); }
 .activity-item:last-child { border-bottom: 0; }
-.activity-item > i { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; background: rgba(216,57,47,.18); color: #ff8078; font: 900 13px "Noto Serif SC", serif; font-style: normal; }
+.activity-item > i { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; background: rgba(216,57,47,.18); color: #ff8078; font: 900 13px "Noto Serif SC", var(--serif-cjk), serif; font-style: normal; }
 .activity-item b, .activity-item small { display: block; }
 .activity-item b { font-size: 9px; }
 .activity-item small { margin-top: 4px; color: rgba(255,255,255,.48); font-size: 8px; line-height: 1.4; }
@@ -394,7 +400,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .request-row:last-child { border-bottom: 0; }
 .request-row:hover { background: #fafafb; }
 .route-cell { display: flex; align-items: center; gap: 11px; min-width: 0; }
-.route-icon { width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--red-soft); color: var(--red); font: 900 14px "Noto Serif SC", serif; font-style: normal; }
+.route-icon { width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--red-soft); color: var(--red); font: 900 14px "Noto Serif SC", var(--serif-cjk), serif; font-style: normal; }
 .route-cell b, .route-cell small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .route-cell b { font-size: 10px; }
 .route-cell small { margin-top: 4px; color: var(--muted); font-size: 8px; }
@@ -448,7 +454,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .offer-row.head { min-height: 38px; background: var(--surface-2); color: var(--muted); font-size: 8px; font-weight: 600; }
 .offer-row.best { background: #fffdf8; box-shadow: inset 3px 0 var(--amber); }
 .company-cell { display: flex; align-items: center; gap: 9px; }
-.company-logo { width: 32px; height: 32px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--ink); color: #fff; font: 900 13px "Noto Serif SC", serif; font-style: normal; }
+.company-logo { width: 32px; height: 32px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--ink); color: #fff; font: 900 13px "Noto Serif SC", var(--serif-cjk), serif; font-style: normal; }
 .company-cell b, .company-cell small { display: block; }
 .company-cell b { font-size: 9px; }
 .company-cell small { margin-top: 3px; color: var(--green); font-size: 7px; }
@@ -487,7 +493,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .verification-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .65fr); gap: 14px; }
 .verification-card { padding: 20px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); }
 .verification-head { display: flex; align-items: center; gap: 13px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
-.verification-head > span:first-child { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 11px; background: var(--green-soft); color: var(--green); font: 900 19px "Noto Serif SC", serif; }
+.verification-head > span:first-child { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 11px; background: var(--green-soft); color: var(--green); font: 900 19px "Noto Serif SC", var(--serif-cjk), serif; }
 .verification-head h2 { margin: 0; font-size: 15px; }
 .verification-head p { margin: 5px 0 0; color: var(--muted); font-size: 8px; }
 .verification-steps { display: grid; }
@@ -503,14 +509,14 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 /* Gate */
 .role-gate { min-height: calc(100vh - var(--topbar)); display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 55px; padding: 60px 6vw; }
 .gate-copy h1 { margin: 15px 0 20px; font-size: 54px; line-height: 1; letter-spacing: -.055em; }
-.gate-copy h1 em { color: var(--red); font-family: "Noto Serif SC", serif; font-style: normal; }
+.gate-copy h1 em { color: var(--red); font-family: "Noto Serif SC", var(--serif-cjk), serif; font-style: normal; }
 .gate-copy > p { max-width: 500px; color: var(--muted); font-size: 14px; line-height: 1.65; }
 .gate-copy > a { display: inline-block; margin-top: 20px; color: var(--red); font-size: 11px; font-weight: 600; }
 .gate-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
 .gate-card { position: relative; min-height: 470px; overflow: hidden; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); text-align: left; }
 .gate-card.forwarder { background: var(--ink); color: #fff; }
 .gate-number { font-size: 9px; font-weight: 700; letter-spacing: .12em; }
-.gate-card > i { position: absolute; right: -12px; top: 40px; color: rgba(216,57,47,.1); font: 900 155px "Noto Serif SC", serif; font-style: normal; }
+.gate-card > i { position: absolute; right: -12px; top: 40px; color: rgba(216,57,47,.1); font: 900 155px "Noto Serif SC", var(--serif-cjk), serif; font-style: normal; }
 .gate-card.forwarder > i { color: rgba(255,255,255,.06); }
 .gate-card > small { position: relative; display: block; margin-top: 190px; color: var(--muted); font-size: 9px; }
 .gate-card.forwarder > small { color: rgba(255,255,255,.5); }
@@ -519,7 +525,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 
 /* Empty state */
 .empty-state { padding: 52px 24px; border: 1px dashed var(--line-strong); border-radius: 14px; background: rgba(255,255,255,.55); text-align: center; }
-.empty-state > span { color: rgba(216,57,47,.23); font: 900 52px "Noto Serif SC", serif; }
+.empty-state > span { color: rgba(216,57,47,.23); font: 900 52px "Noto Serif SC", var(--serif-cjk), serif; }
 .empty-state h2 { margin: 9px 0; font-size: 18px; }
 .empty-state p { max-width: 430px; margin: 0 auto 18px; color: var(--muted); font-size: 10px; line-height: 1.55; }
 
@@ -570,7 +576,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 18px; padding-top: 17px; border-top: 1px solid var(--line); }
 .modal-footer .ghost:first-child { margin-right: auto; }
 .review-banner { display: flex; align-items: center; gap: 13px; padding: 15px; border-radius: 11px; background: var(--ink); color: #fff; }
-.review-banner > span { color: #ff7268; font: 900 29px "Noto Serif SC", serif; }
+.review-banner > span { color: #ff7268; font: 900 29px "Noto Serif SC", var(--serif-cjk), serif; }
 .review-banner b, .review-banner small { display: block; }
 .review-banner b { font-size: 11px; }
 .review-banner small { margin-top: 4px; color: rgba(255,255,255,.52); font-size: 8px; line-height: 1.45; }
@@ -592,7 +598,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .bid-note { margin-top: 13px; color: var(--muted); font-size: 8px; line-height: 1.5; }
 .confirm-modal { width: min(510px, calc(100vw - 42px)); padding: 31px; text-align: center; }
 .confirm-modal > .modal-close { position: absolute; top: 16px; right: 16px; }
-.confirm-symbol { width: 62px; height: 62px; display: grid; place-items: center; margin: 3px auto 16px; border-radius: 50%; background: var(--red-soft); color: var(--red); font: 900 28px "Noto Serif SC", serif; }
+.confirm-symbol { width: 62px; height: 62px; display: grid; place-items: center; margin: 3px auto 16px; border-radius: 50%; background: var(--red-soft); color: var(--red); font: 900 28px "Noto Serif SC", var(--serif-cjk), serif; }
 .confirm-modal h2 { margin: 0; font-size: 23px; }
 .confirm-modal > p:not(.overline) { max-width: 390px; margin: 14px auto; color: var(--muted); font-size: 9px; line-height: 1.55; }
 .confirm-modal .modal-footer { justify-content: center; }
@@ -653,7 +659,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .role-switcher > small, .nav-label { color: var(--muted-2); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; }
 .role-switcher > small { margin: 0 8px 8px; }
 .role-identity { grid-template-columns: 36px 1fr auto; gap: 10px; min-height: 60px; padding: 10px; border-radius: 12px; }
-.role-identity > i { width: 36px; height: 36px; border-radius: 8px; font: 600 16px "Noto Sans SC", sans-serif; }
+.role-identity > i { width: 36px; height: 36px; border-radius: 8px; font: 600 16px Manrope, var(--sans-cjk), sans-serif; }
 .role-identity > span { font-size: 13px; font-weight: 600; }
 .role-identity small { margin-top: 2px; font-size: 11px; }
 .sidebar-nav { gap: 4px; padding: 12px 0; }
@@ -664,7 +670,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sidebar-nav button i { width: 20px; display: grid; place-items: center; font-size: 0; }
 .sidebar-nav button b { min-width: 20px; padding: 2px 6px; border-radius: 8px; background: var(--surface-2); font-size: 11px; font-weight: 500; }
 .sidebar-trust { gap: 10px; margin: auto 0 12px; padding: 12px; border-radius: 12px; background: #edf5f0; }
-.sidebar-trust > span { font: 600 18px "Noto Sans SC", sans-serif; }
+.sidebar-trust > span { font: 600 18px Manrope, var(--sans-cjk), sans-serif; }
 .sidebar-trust b { font-size: 12px; font-weight: 600; }
 .sidebar-trust small { margin-top: 4px; font-size: 11px; line-height: 1.45; }
 .back-to-site { padding: 8px 10px; font-size: 12px; }
@@ -786,7 +792,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .offers-table { border-radius: 16px; }
 .offer-row { grid-template-columns: minmax(160px, 1.15fr) .78fr .58fr .76fr 1fr 88px; gap: 12px; min-height: 72px; padding: 12px 16px; }
 .offer-row.head { min-height: 40px; font-size: 12px; font-weight: 500; }
-.company-logo { width: 36px; height: 36px; border-radius: 8px; font: 600 14px "Noto Sans SC", sans-serif; }
+.company-logo { width: 36px; height: 36px; border-radius: 8px; font: 600 14px Manrope, var(--sans-cjk), sans-serif; }
 .company-cell b { font-size: 12px; font-weight: 600; }
 .company-cell small { margin-top: 2px; font-size: 11px; }
 .offer-row > span b { font-size: 13px; font-weight: 600; }
@@ -816,7 +822,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .verification-layout { gap: 16px; }
 .verification-card { padding: 24px; border-radius: 16px; }
 .verification-head { gap: 12px; padding-bottom: 20px; }
-.verification-head > span:first-child { font: 600 18px "Noto Sans SC", sans-serif; }
+.verification-head > span:first-child { font: 600 18px Manrope, var(--sans-cjk), sans-serif; }
 .verification-head h2 { font-size: 17px; font-weight: 600; }
 .verification-head p { margin-top: 4px; font-size: 12px; }
 .verification-step { grid-template-columns: 32px 1fr auto; gap: 12px; min-height: 72px; }
@@ -866,11 +872,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .role-gate { gap: 56px; padding: 64px 6vw; }
 .gate-copy h1 { font-size: 52px; font-weight: 600; }
-.gate-copy h1 em { font-family: Manrope, "Noto Sans SC", sans-serif; font-weight: 500; }
+.gate-copy h1 em { font-family: Manrope, var(--sans-cjk), sans-serif; font-weight: 500; }
 .gate-copy > a { font-size: 13px; }
 .gate-card { padding: 24px; border-radius: 16px; }
 .gate-number, .gate-card > small, .gate-card > em { font-size: 12px; letter-spacing: 0; }
-.gate-card > i { font-family: "Noto Sans SC", sans-serif; font-weight: 600; }
+.gate-card > i { font-family: Manrope, var(--sans-cjk), sans-serif; font-weight: 600; }
 
 @media (max-width: 1260px) {
   :root { --sidebar: 240px; }
