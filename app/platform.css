@@ -196,7 +196,7 @@ img { max-width: 100%; }
 }
 .role-identity > span { font-size: 11px; font-weight: 600; }
 .role-identity small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; font-weight: 500; }
-.role-identity > b { color: var(--green); font-size: 11px; }
+.role-identity > b { color: var(--green); font-size: 12px; }
 .sidebar-nav { display: grid; gap: 3px; padding: 14px 1px; }
 .nav-label { padding: 15px 10px 6px; }
 .sidebar-nav button {
@@ -499,7 +499,7 @@ body[data-role="forwarder"] .kpi-card > i { background: var(--blue-soft); color:
 .verification-steps { display: grid; }
 .verification-step { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 11px; min-height: 67px; border-bottom: 1px solid var(--line); }
 .verification-step:last-child { border-bottom: 0; }
-.verification-step > i { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #eef0f2; font-size: 9px; font-style: normal; }
+.verification-step > i { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #eef0f2; font-size: 12px; font-style: normal; }
 .verification-step.done > i { background: var(--green); color: #fff; }
 .verification-step b, .verification-step small { display: block; }
 .verification-step b { font-size: 10px; }
@@ -641,7 +641,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .app-topbar { height: var(--topbar); gap: 24px; padding: 0 24px; background: rgba(255, 254, 252, .97); backdrop-filter: blur(12px); }
 .app-brand { width: calc(var(--sidebar) - 24px); gap: 12px; font-size: 16px; font-weight: 600; letter-spacing: .08em; }
 .app-brand-mark { width: 36px; height: 36px; border-radius: 8px; }
-.app-brand small { margin-top: 2px; font-size: 11px; font-weight: 500; letter-spacing: 0; }
+.app-brand small { margin-top: 2px; font-size: 12px; font-weight: 500; letter-spacing: 0; }
 .topbar-context { gap: 12px; }
 .topbar-context span, .topbar-context b { font-size: 12px; }
 .topbar-context b { font-weight: 500; }
@@ -652,7 +652,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .profile-button { grid-template-columns: 36px auto 16px; gap: 8px; min-width: 192px; padding: 4px 8px; border-radius: 8px; }
 .profile-button > span { font-size: 12px; font-weight: 600; }
 .profile-button b { font-size: 12px; font-weight: 600; }
-.profile-button small { margin-top: 2px; font-size: 11px; }
+.profile-button small { margin-top: 2px; font-size: 12px; }
 
 .app-sidebar { top: var(--topbar); width: var(--sidebar); padding: 20px 16px 16px; background: var(--surface); }
 .role-switcher { padding: 0 0 16px; }
@@ -661,18 +661,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .role-identity { grid-template-columns: 36px 1fr auto; gap: 10px; min-height: 60px; padding: 10px; border-radius: 12px; }
 .role-identity > i { width: 36px; height: 36px; border-radius: 8px; font: 600 16px Manrope, var(--sans-cjk), sans-serif; }
 .role-identity > span { font-size: 13px; font-weight: 600; }
-.role-identity small { margin-top: 2px; font-size: 11px; }
+.role-identity small { margin-top: 2px; font-size: 12px; }
 .sidebar-nav { gap: 4px; padding: 12px 0; }
 .nav-label { padding: 16px 10px 8px; }
 .sidebar-nav button { grid-template-columns: 20px 1fr auto; gap: 10px; min-height: 36px; padding: 0 10px; border-radius: 8px; color: var(--muted); font-size: 13px; font-weight: 500; }
 .sidebar-nav button.active { background: var(--red-soft); color: var(--red-dark); font-weight: 600; }
 .sidebar-nav button.active::before { display: none; }
 .sidebar-nav button i { width: 20px; display: grid; place-items: center; font-size: 0; }
-.sidebar-nav button b { min-width: 20px; padding: 2px 6px; border-radius: 8px; background: var(--surface-2); font-size: 11px; font-weight: 500; }
+.sidebar-nav button b { min-width: 20px; padding: 2px 6px; border-radius: 8px; background: var(--surface-2); font-size: 12px; font-weight: 500; }
 .sidebar-trust { gap: 10px; margin: auto 0 12px; padding: 12px; border-radius: 12px; background: #edf5f0; }
 .sidebar-trust > span { font: 600 18px Manrope, var(--sans-cjk), sans-serif; }
 .sidebar-trust b { font-size: 12px; font-weight: 600; }
-.sidebar-trust small { margin-top: 4px; font-size: 11px; line-height: 1.45; }
+.sidebar-trust small { margin-top: 4px; font-size: 12px; line-height: 1.45; }
 .back-to-site { padding: 8px 10px; font-size: 12px; }
 
 .app-main { padding-top: var(--topbar); padding-left: var(--sidebar); }
@@ -722,12 +722,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .activity-item > i { width: 32px; height: 32px; border-radius: 8px; background: var(--surface-2); color: var(--muted); font: inherit; }
 .activity-item b { font-size: 13px; font-weight: 600; }
 .activity-item small { margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.35; }
-.activity-item time { color: var(--muted-2); font-size: 11px; font-variant-numeric: tabular-nums; }
+.activity-item time { color: var(--muted-2); font-size: 12px; font-variant-numeric: tabular-nums; }
 .quick-actions { gap: 8px; }
 .quick-action { grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; min-height: 64px; padding: 10px 12px; border-radius: 10px; }
 .quick-action > i { width: 32px; height: 32px; border-radius: 8px; background: var(--red-soft); color: var(--red-dark); }
 .quick-action b { font-size: 13px; font-weight: 600; }
-.quick-action small { margin-top: 2px; font-size: 11px; }
+.quick-action small { margin-top: 2px; font-size: 12px; }
 .quick-action > span:last-child { display: grid; place-items: center; }
 .company-status > .button { width: 100%; margin-top: 16px; }
 
@@ -748,7 +748,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .route-cell small { margin-top: 3px; font-size: 12px; }
 .request-price b, .request-time b { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .row-arrow { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; font-size: 0; }
-.status { min-height: 24px; padding: 0 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+.status { min-height: 24px; padding: 0 8px; border-radius: 8px; font-size: 12px; font-weight: 600; }
 .status.chosen { background: var(--surface-2); color: var(--ink); }
 
 .route-signature { display: grid; grid-template-columns: minmax(120px, auto) minmax(72px, 1fr) minmax(120px, auto); align-items: center; gap: 16px; margin: 24px 0; }
@@ -764,7 +764,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .route-track u { position: absolute; right: 0; top: 50%; width: 8px; height: 8px; transform: translate(2px, -50%) rotate(45deg); border-top: 2px solid currentColor; border-right: 2px solid currentColor; }
 .route-signature.compact { grid-template-columns: minmax(84px, auto) minmax(48px, 1fr) minmax(84px, auto); gap: 10px; margin: 0; }
 .route-signature.compact b { overflow: hidden; font-size: 12px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
-.route-signature.compact small { margin-top: 2px; color: inherit; font-size: 10px; opacity: .56; }
+.route-signature.compact small { margin-top: 2px; color: inherit; font-size: 12px; opacity: .56; }
 .attention-card .route-signature.compact { max-width: 340px; color: var(--surface); }
 .attention-card .route-track { color: #ef645c; }
 
@@ -794,16 +794,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .offer-row.head { min-height: 40px; font-size: 12px; font-weight: 500; }
 .company-logo { width: 36px; height: 36px; border-radius: 8px; font: 600 14px Manrope, var(--sans-cjk), sans-serif; }
 .company-cell b { font-size: 12px; font-weight: 600; }
-.company-cell small { margin-top: 2px; font-size: 11px; }
+.company-cell small { margin-top: 2px; font-size: 12px; }
 .offer-row > span b { font-size: 13px; font-weight: 600; }
-.offer-row > span small { margin-top: 3px; font-size: 11px; }
+.offer-row > span small { margin-top: 3px; font-size: 12px; }
 
 .load-list-head, .load-row { display: grid; grid-template-columns: minmax(240px, 1.35fr) minmax(150px, 1fr) 120px 136px 120px 84px; align-items: center; gap: 16px; }
 .load-list-head { min-height: 40px; padding: 0 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface-2); color: var(--muted); font-size: 12px; }
 .load-row { min-height: 84px; padding: 12px 20px; border-bottom: 1px solid var(--line); cursor: pointer; }
 .load-row:last-child { border-bottom: 0; }
 .load-row:hover { background: #faf9f6; }
-.load-row > div > small, .load-row > span small { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+.load-row > div > small, .load-row > span small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
 .load-row > span b { display: block; overflow: hidden; font-size: 12px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
 .load-row > .button { justify-self: end; }
 .dashboard-table .load-list-head, .dashboard-table .load-row { grid-template-columns: minmax(220px, 1.45fr) minmax(132px, 1fr) 112px 120px; }
@@ -818,7 +818,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .my-offer { min-height: 72px; gap: 16px; padding: 12px 16px; border-radius: 12px; }
 .my-offer > div b, .my-offer > span b { font-size: 12px; font-weight: 600; }
-.my-offer > div small, .my-offer > span small { margin-top: 3px; font-size: 11px; }
+.my-offer > div small, .my-offer > span small { margin-top: 3px; font-size: 12px; }
 .verification-layout { gap: 16px; }
 .verification-card { padding: 24px; border-radius: 16px; }
 .verification-head { gap: 12px; padding-bottom: 20px; }
@@ -827,7 +827,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .verification-head p { margin-top: 4px; font-size: 12px; }
 .verification-step { grid-template-columns: 32px 1fr auto; gap: 12px; min-height: 72px; }
 .verification-step b { font-size: 13px; font-weight: 600; }
-.verification-step small, .verification-step > em { font-size: 11px; }
+.verification-step small, .verification-step > em { font-size: 12px; }
 
 .empty-state { padding: 56px 24px; border-radius: 16px; }
 .empty-state h2 { font-size: 20px; font-weight: 600; }
@@ -840,7 +840,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .wizard-progress { gap: 8px; padding: 20px 4px 12px; }
 .wizard-progress > span { width: 32px; height: 32px; font-size: 12px; }
 .wizard-progress > span, .gate-number { font-weight: 600; }
-.wizard-progress > span small { top: 40px; font-size: 11px; }
+.wizard-progress > span small { top: 40px; font-size: 12px; }
 .wizard-step { min-height: 344px; padding: 36px 0 4px; }
 .form-grid { gap: 12px; }
 .compact-top { margin-top: 12px; }
@@ -848,27 +848,27 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .modal input, .modal select, .modal textarea { padding: 11px 12px; border-radius: 8px; font-size: 13px; }
 .upload-zone { margin-top: 12px; padding: 16px; border-radius: 10px; }
 .upload-zone b { font-size: 13px; }
-.upload-zone small { font-size: 11px; }
+.upload-zone small { font-size: 12px; }
 .segmented { gap: 8px; margin-bottom: 16px; }
 .segmented b { padding: 12px; border-radius: 10px; font-size: 13px; }
-.segmented small { font-size: 11px; }
+.segmented small { font-size: 12px; }
 .services { margin-top: 12px; }
 .services label { padding: 8px 10px; border-radius: 8px; font-size: 12px; }
 .review-banner b { font-size: 13px; }
-.review-banner small, .review-card small, .consent span, .selected-load small, .bid-note { font-size: 11px !important; }
+.review-banner small, .review-card small, .consent span, .selected-load small, .bid-note { font-size: 12px !important; }
 .review-card b, .selected-load b { font-size: 13px; }
 .confirm-modal > p:not(.overline) { font-size: 12px; }
-.confirm-offer small { font-size: 11px; }
+.confirm-offer small { font-size: 12px; }
 .confirm-offer b { font-size: 13px; }
 .profile-menu { width: 264px; padding: 8px; border-radius: 12px; }
 .profile-menu button { grid-template-columns: 32px 1fr; gap: 10px; min-height: 56px; padding: 8px; border-radius: 8px; }
 .profile-menu button > i { width: 32px; height: 32px; background: var(--surface-2); }
 .profile-menu button > i svg { width: 17px; height: 17px; }
 .profile-menu b { font-size: 12px; }
-.profile-menu small { font-size: 11px; }
+.profile-menu small { font-size: 12px; }
 .toast { gap: 12px; padding: 12px 16px; border-radius: 12px; }
 .toast b { font-size: 12px; }
-.toast small { font-size: 11px; }
+.toast small { font-size: 12px; }
 
 .role-gate { gap: 56px; padding: 64px 6vw; }
 .gate-copy h1 { font-size: 52px; font-weight: 600; }
@@ -883,6 +883,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .overview-band { grid-template-columns: minmax(0, 1.35fr) minmax(340px, .8fr); }
   .workspace-grid { grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr); }
   .load-list-head, .load-row { grid-template-columns: minmax(220px, 1.25fr) minmax(140px, 1fr) 108px 124px 108px 76px; gap: 12px; }
+  /* The offers table needs the full width here: the side panel moves below it, its cards in a row. */
+  .request-page, .load-detail { grid-template-columns: minmax(0, 1fr); }
+  .detail-side { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
 }
 
 /* Former inline style="" attributes from platform.js templates (CSP: style-src 'self') */
@@ -894,3 +897,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .activity-list.on-light .activity-item { border-color: var(--line); }
 .activity-list.on-light .activity-item small, .activity-list.on-light .activity-item time { color: var(--muted); }
 .status.push-right { margin-left: auto; }
+
+/* Unread notifications (state.notificationsRead) */
+.activity-item.unread > i { background: var(--red-soft); color: var(--red); }
+.activity-item.unread b::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--red); vertical-align: middle; }

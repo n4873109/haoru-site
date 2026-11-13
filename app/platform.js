@@ -1,5 +1,9 @@
 (() => {
   const STORAGE_KEY = 'haoru.prototype.v1';
+  // The interface language outlives the demo data, so it is stored separately.
+  const LANGUAGE_KEY = 'haoru.platform.language';
+  // Left in browsers by the removed marketing-site demo (client.html / forwarder.html).
+  const LEGACY_DEMO_KEYS = ['haoruRequests'];
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const money = (value, currency = 'RUB') => new Intl.NumberFormat('ru-RU', {
@@ -36,7 +40,7 @@
     {
       id: 'HR-1048', status: 'active', from: 'Гуанчжоу', fromZh: '广州', to: 'Москва', toZh: '莫斯科',
       category: 'Товары для маркетплейсов', weight: 420, volume: 2.4, places: 12,
-      ready: '12 ноября', logistics: 'Карго', transport: 'Авто + ж/д', auctionDuration: 48,
+      ready: '2026-11-12', logistics: 'Карго', transport: 'Авто + ж/д', auctionDuration: 48,
       timeLeft: 26340, budget: 200000, currency: 'RUB', services: ['Страхование', 'Таможенное оформление', 'До двери'],
       details: 'Нужна усиленная упаковка и доставка до склада в Москве.',
       offers: [
@@ -47,7 +51,7 @@
     },
     {
       id: 'HR-1051', status: 'active', from: 'Шэньчжэнь', fromZh: '深圳', to: 'Казань', toZh: '喀山',
-      category: 'Оборудование', weight: 1850, volume: 6, places: 8, ready: '16 ноября',
+      category: 'Оборудование', weight: 1850, volume: 6, places: 8, ready: '2026-11-16',
       logistics: 'Официальная', transport: 'Ж/д', auctionDuration: 48, timeLeft: 116820,
       budget: 5000, currency: 'USD', services: ['Таможенное оформление', 'До двери'], details: 'Деревянные ящики, не кантовать.',
       offers: [
@@ -57,7 +61,7 @@
     },
     {
       id: 'HR-1039', status: 'waiting', from: 'Иу', fromZh: '义乌', to: 'Санкт-Петербург', toZh: '圣彼得堡',
-      category: 'Одежда и текстиль', weight: 760, volume: 4.1, places: 24, ready: '8 ноября',
+      category: 'Одежда и текстиль', weight: 760, volume: 4.1, places: 24, ready: '2026-11-08',
       logistics: 'Карго', transport: 'Не важно', auctionDuration: 48, timeLeft: 0,
       budget: 240000, currency: 'RUB', services: ['Консолидация', 'До двери'], details: '',
       offers: [
@@ -67,7 +71,7 @@
     },
     {
       id: 'HR-1027', status: 'chosen', chosenOfferId: 'OF-471', from: 'Нинбо', fromZh: '宁波', to: 'Екатеринбург', toZh: '叶卡捷琳堡',
-      category: 'Мебель и интерьер', weight: 2400, volume: 14, places: 30, ready: '2 ноября',
+      category: 'Мебель и интерьер', weight: 2400, volume: 14, places: 30, ready: '2026-11-02',
       logistics: 'Официальная', transport: 'Море + ж/д', auctionDuration: 72, timeLeft: 0,
       budget: 6300, currency: 'USD', services: ['Страхование', 'Таможенное оформление', 'До двери'], details: '',
       offers: [
@@ -87,11 +91,50 @@
     requestCounter: 1052,
     requests: initialRequests,
     deals: [
-      { id: 'DL-203', requestId: 'HR-1027', status: 'Ожидает подтверждения', delivery: 'В работе', contactsOpen: true }
+      { id: 'DL-203', requestId: 'HR-1027', status: 'Ожидает подтверждения', delivery: 'В работе', contactsOpen: true, confirmations: { client: false, forwarder: false } }
+    ],
+    notificationsRead: { client: false, forwarder: false }
+  };
+
+  // Company of the demo forwarder account: it sees only deals where its offer was chosen.
+  const DEMO_FORWARDER = 'Dragon Bridge';
+  // «Таблица / Карточки» on the request page: the card view of offers doesn't exist yet.
+  const SHOW_OFFER_VIEW_TOGGLE = false;
+
+  const companies = [
+    { name: 'Dragon Bridge', mark: '龙', city: 'Гуанчжоу', spec: 'Карго · Авто · Ж/д', logistics: ['Карго'], transport: ['Авто', 'Ж/д'], services: ['Страхование', 'До двери'], rating: '4,9', deals: 126 },
+    { name: 'Yunhe Logistics', mark: '云', city: 'Иу', spec: 'Официальная · Ж/д · Таможня', logistics: ['Официальная'], transport: ['Ж/д'], services: ['Таможня', 'До двери'], rating: '4,8', deals: 89 },
+    { name: 'SinoLine', mark: '海', city: 'Шэньчжэнь', spec: 'Море · Авиа · Авто', logistics: ['Карго', 'Официальная'], transport: ['Море', 'Авиа', 'Авто'], services: ['Страхование'], rating: '4,7', deals: 74 },
+    { name: 'EastRail Cargo', mark: '铁', city: 'Сиань', spec: 'Официальная · Ж/д', logistics: ['Официальная'], transport: ['Ж/д'], services: ['Таможня'], rating: '4,8', deals: 62 }
+  ];
+
+  const notifications = {
+    client: [
+      ['价','Новая цена по заявке HR-1048','Dragon Bridge обновила стоимость до 186 000 ₽','12 минут назад'],
+      ['新','Новое предложение по HR-1051','EastRail Cargo предложила доставку за 21 день','18 минут назад'],
+      ['时','Торги HR-1039 завершены','Выберите одно из двух актуальных предложений','1 час назад'],
+      ['验','Компания прошла проверку','Yunhe Logistics доступна в каталоге','вчера']
+    ],
+    forwarder: [
+      ['邀','Новое приглашение','Клиент приглашает к торгам по HR-1051','8 минут назад'],
+      ['价','Ваша ставка сейчас лучшая','Предложение по HR-1048 лидирует по цене','12 минут назад'],
+      ['时','До закрытия торгов 2 часа','Заявка HR-1048','5 часов назад']
     ]
   };
 
   const clone = (value) => JSON.parse(JSON.stringify(value));
+  // Chinese names for cities typed in the request wizard (it is a free-text field).
+  const CITY_ZH = {
+    'гуанчжоу': '广州', 'шэньчжэнь': '深圳', 'иу': '义乌', 'нинбо': '宁波', 'фошань': '佛山', 'шанхай': '上海',
+    'пекин': '北京', 'тяньцзинь': '天津', 'циндао': '青岛', 'сямынь': '厦门', 'ханчжоу': '杭州', 'дунгуань': '东莞',
+    'сиань': '西安', 'чэнду': '成都', 'чунцин': '重庆', 'ухань': '武汉', 'урумчи': '乌鲁木齐', 'харбин': '哈尔滨',
+    'суйфэньхэ': '绥芬河', 'маньчжурия': '满洲里', 'хоргос': '霍尔果斯',
+    'москва': '莫斯科', 'санкт-петербург': '圣彼得堡', 'казань': '喀山', 'екатеринбург': '叶卡捷琳堡',
+    'новосибирск': '新西伯利亚', 'владивосток': '符拉迪沃斯托克', 'краснодар': '克拉斯诺达尔',
+    'ростов-на-дону': '顿河畔罗斯托夫', 'самара': '萨马拉', 'нижний новгород': '下诺夫哥罗德',
+    'челябинск': '车里雅宾斯克', 'иркутск': '伊尔库茨克', 'хабаровск': '哈巴罗夫斯克', 'красноярск': '克拉斯诺亚尔斯克', 'уфа': '乌法'
+  };
+  const cityZh = (name) => CITY_ZH[String(name || '').trim().toLowerCase().replace(/ё/g, 'е')] || '';
   let state = loadState();
   let wizardStep = 1;
   let selectedLoadId = null;
@@ -250,6 +293,12 @@
     'Опубликовано': '已发布', 'Возможности аккаунта': '账户权限', 'Просмотр заявок': '查看需求',
     'Доступен': '可用', 'Отправка ставок': '提交报价', 'Доступна': '可用', 'Сотрудников': '员工数',
     'Тариф': '套餐', 'Редактировать профиль': '编辑资料',
+    'до конца торгов': '竞价结束前可修改', 'торги завершены': '竞价已结束',
+    'Скоро завершатся': '即将结束', 'Сначала тяжёлые': '重量从大到小', 'Подходящих компаний нет': '暂无匹配公司',
+    'Ничего не найдено': '未找到结果', 'Измените фильтры и попробуйте снова.': '请调整筛选条件后重试。',
+    'Ожидает подтверждения второй стороны': '等待对方确认', 'Подтверждена': '已确认', 'Вы подтвердили': '您已确认',
+    'Все прочитаны': '已全部阅读', 'Сделок пока нет': '暂无交易',
+    'Сделка появится после выбора предложения грузовладельцем.': '货主选定报价后将生成交易。',
     'Неограниченный срок': '不限时效', 'Любой разумный срок': '合理时效均可',
     'До 10 дней': '10天内', 'До 20 дней': '20天内', 'До 30 дней': '30天内',
     '24 часа': '24小时', '48 часов': '48小时', '72 часа': '72小时', '7 дней': '7天',
@@ -263,7 +312,7 @@
     ,'+4 за сегодня': '今日新增4个', 'Категория': '货物类别', 'Груз готов': '备货日期',
     'Текущая лучшая цена': '当前最低价', 'Приглашение': '邀请', 'Аукцион': '竞价',
     '12 мин': '12分钟', '18 мин': '18分钟', '8 мин': '8分钟', '5 часов назад': '5小时前',
-    '1 из 3': '3次中已用1次', '2 из 3': '3次中已用2次', '3 из 3': '3次已用完',
+    '0 из 3': '3次中已用0次', '1 из 3': '3次中已用1次', '2 из 3': '3次中已用2次', '3 из 3': '3次已用完',
     'Работа · Работа': '工作', '工作 · Работа': '工作', 'Компания · Компания': '公司', '公司 · Компания': '公司',
     '适合您的货源 · Подходящие грузы': '适合您的货源', '已认证 · Проверена': '已认证',
     'Действие выполнено': '操作已完成', 'кг': '公斤', 'м³': '立方米',
@@ -314,6 +363,19 @@
     $('#languageButton').innerHTML = state.language === 'ru' ? 'RU <span>/ 中文</span>' : '中文 <span>/ RU</span>';
   }
 
+  function storedLanguage() {
+    try {
+      const value = localStorage.getItem(LANGUAGE_KEY);
+      return value === 'ru' || value === 'zh' ? value : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function freshState() {
+    return { ...clone(defaultState), language: storedLanguage() || 'ru' };
+  }
+
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
@@ -322,12 +384,34 @@
         saved.requests.forEach((request) => request.offers?.forEach((offer) => {
           if (!offer.comment && initialOfferComments.has(offer.id)) offer.comment = initialOfferComments.get(offer.id);
         }));
-        return { ...clone(defaultState), ...saved };
+        // Older saves copied the Russian city name into fromZh/toZh, so the forwarder saw it twice.
+        saved.requests.forEach((request) => {
+          if (!request.fromZh || request.fromZh === request.from) request.fromZh = cityZh(request.from);
+          if (!request.toZh || request.toZh === request.to) request.toZh = cityZh(request.to);
+        });
+        return { ...clone(defaultState), ...saved, language: storedLanguage() || saved.language || 'ru' };
       }
     } catch (error) {
       console.warn('HAORU demo state could not be loaded', error);
     }
-    return clone(defaultState);
+    return freshState();
+  }
+
+  // Demo data is per account: it is wiped on logout and whenever another account opens the cabinet.
+  function resetDemoState() {
+    try {
+      [STORAGE_KEY, ...LEGACY_DEMO_KEYS].forEach((key) => localStorage.removeItem(key));
+    } catch (error) {
+      console.warn('HAORU demo state could not be cleared', error);
+    }
+    state = freshState();
+  }
+
+  function bindDemoStateToOwner(ownerId) {
+    if (state.ownerId === ownerId) return;
+    resetDemoState();
+    state.ownerId = ownerId;
+    saveState();
   }
 
   function saveState() {
@@ -357,15 +441,15 @@
   const navigation = {
     client: [
       ['Основное'],
-      ['dashboard', 'home', 'Обзор'], ['requests', 'clipboard', 'Мои заявки', '3'], ['companies', 'building', 'Экспедиторы'],
+      ['dashboard', 'home', 'Обзор'], ['requests', 'clipboard', 'Мои заявки'], ['companies', 'building', 'Экспедиторы'],
       ['Работа'],
-      ['deals', 'handshake', 'Сделки', '1'], ['notifications', 'bell', 'Уведомления', '4']
+      ['deals', 'handshake', 'Сделки'], ['notifications', 'bell', 'Уведомления']
     ],
     forwarder: [
       ['Работа'],
-      ['dashboard', 'home', 'Обзор'], ['loads', 'clipboard', 'Биржа грузов', '12'], ['offers', 'bid', 'Мои предложения', '2'],
+      ['dashboard', 'home', 'Обзор'], ['loads', 'clipboard', 'Биржа грузов'], ['offers', 'bid', 'Мои предложения'],
       ['Компания'],
-      ['verification', 'checkUser', 'Проверка компании'], ['deals', 'handshake', 'Сделки'], ['notifications', 'bell', 'Уведомления', '3']
+      ['verification', 'checkUser', 'Проверка компании'], ['deals', 'handshake', 'Сделки'], ['notifications', 'bell', 'Уведомления']
     ]
   };
 
@@ -430,7 +514,8 @@
 
     $('#sidebarNav').innerHTML = navigation[role].map((item) => {
       if (item.length === 1) return `<span class="nav-label">${item[0]}</span>`;
-      const [key, icon, title, count] = item;
+      const [key, icon, title] = item;
+      const count = navCounts(role)[key] || '';
       const active = view === key || (role === 'client' && view === 'request' && key === 'requests') || (role === 'forwarder' && view === 'load' && key === 'loads');
       return `<button class="${active ? 'active' : ''}" data-route="${role}/${key}"><i>${svgIcon(icon)}</i><span>${title}</span>${count ? `<b>${count}</b>` : ''}</button>`;
     }).join('');
@@ -530,19 +615,63 @@
   const bestOffer = (request) => request.offers.slice().sort((a, b) => a.price - b.price)[0];
   const statusLabel = (status) => ({ active: 'Идут торги', waiting: 'Ожидает выбора', draft: 'Черновик', chosen: 'Исполнитель выбран', cancelled: 'Отменена' })[status] || status;
   const statusClass = (status) => ({ active: 'active', waiting: 'waiting', draft: 'draft', chosen: 'chosen' })[status] || 'draft';
+  const unreadCount = (role) => (state.notificationsRead?.[role] ? 0 : notifications[role].length);
+  // Sidebar badges are computed from the demo state; zero hides the badge.
+  const navCounts = (role) => (role === 'client'
+    ? { requests: state.requests.length, deals: visibleDeals('client').length, notifications: unreadCount('client') }
+    : { loads: activeRequests().length, offers: myOffers().length, deals: visibleDeals('forwarder').length, notifications: unreadCount('forwarder') });
+
+  // «广州 · Гуанчжоу» for the forwarder; one name when the Chinese one is unknown, and only Chinese in the 中文 UI.
+  function cityLabel(zh, ru) {
+    if (state.language === 'zh') return zh || ru;
+    return zh && zh !== ru ? `${zh} · ${ru}` : ru;
+  }
+
+  // Dates are stored as ISO (yyyy-mm-dd, the wizard's <input type="date">); legacy free text passes through.
+  function formatDate(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
+    if (!match) return value || '—';
+    const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    const options = { day: 'numeric', month: 'long', ...(date.getFullYear() !== new Date().getFullYear() ? { year: 'numeric' } : {}) };
+    return new Intl.DateTimeFormat(state.language === 'zh' ? 'zh-CN' : 'ru-RU', options).format(date).replace(/\s*г\.$/, '');
+  }
+
+  const durationLabel = (hours) => ({ 24: '24 часа', 48: '48 часов', 72: '72 часа', 168: '7 дней' })[Number(hours)] || `${hours} ч`;
+  // Active auctions first, nearest deadline first; everything else keeps its order after them.
+  const endingRank = (request) => (request.status === 'active' ? request.timeLeft : Number.MAX_SAFE_INTEGER);
+  const sortByEnding = (list) => list.slice().sort((a, b) => endingRank(a) - endingRank(b));
+
+  function dealOffer(deal) {
+    const request = findRequest(deal.requestId);
+    return request?.offers.find((offer) => offer.id === request.chosenOfferId);
+  }
+
+  // ТЗ §6.3: the deal is confirmed only when both sides confirm; commission is not accrued here (§7.1).
+  function dealStatus(deal) {
+    const confirmations = deal.confirmations || {};
+    if (confirmations.client && confirmations.forwarder) return { label: 'Подтверждена', className: 'active', confirmed: true };
+    if (confirmations.client || confirmations.forwarder) return { label: 'Ожидает подтверждения второй стороны', className: 'waiting', confirmed: false };
+    return { label: 'Ожидает подтверждения', className: 'waiting', confirmed: false };
+  }
+
+  const visibleDeals = (role) => (role === 'forwarder' ? state.deals.filter((deal) => dealOffer(deal)?.company === DEMO_FORWARDER) : state.deals);
 
   function timerLabel(seconds) {
     if (!seconds) return 'Торги завершены';
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
+    if (hours >= 24) {
+      const days = Math.floor(hours / 24);
+      return state.language === 'zh' ? `${days}天${hours % 24}小时` : `${days} д ${hours % 24} ч`;
+    }
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
   }
 
   function routeSignature(request, options = {}) {
     const forwarder = Boolean(options.forwarder);
     const compact = Boolean(options.compact);
-    const fromName = forwarder ? `${request.fromZh} · ${request.from}` : request.from;
-    const toName = forwarder ? `${request.toZh} · ${request.to}` : request.to;
+    const fromName = forwarder ? cityLabel(request.fromZh, request.from) : request.from;
+    const toName = forwarder ? cityLabel(request.toZh, request.to) : request.to;
     return `<div class="route-signature${compact ? ' compact' : ''}"><span><b>${escapeHtml(fromName)}</b><small>Китай</small></span><i class="route-track"><u></u></i><span><b>${escapeHtml(toName)}</b><small>Россия</small></span></div>`;
   }
 
@@ -575,7 +704,7 @@
   }
 
   function clientRequests() {
-    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Все заявки</h2><p id="requestResultCount">Показано ${state.requests.length}</p></div><button data-open-wizard>${svgIcon('plus', 15)} Новая заявка</button></div><form class="filters compact" id="requestFilters"><label class="search-field"><span>Поиск</span><input name="query" placeholder="Маршрут или номер"></label><label><span>Статус</span><select name="status"><option value="all">Все статусы</option><option value="active">Активные торги</option><option value="waiting">Ожидают выбора</option><option value="draft">Черновики</option><option value="chosen">Исполнитель выбран</option></select></label><label><span>Маршрут</span><select name="route"><option value="all">Все направления</option><option value="Москва">В Москву</option><option value="Казань">В Казань</option></select></label><label><span>Сортировка</span><select><option>Сначала новые</option><option>Ближайшее завершение</option></select></label><button class="button dark" type="submit">Применить</button></form><div class="request-list-head"><span>Маршрут и груз</span><span>Статус</span><span>Стоимость</span><span>Торги</span><span></span></div><div class="request-list" id="requestList">${state.requests.map(requestRow).join('')}</div></section>`;
+    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Все заявки</h2><p id="requestResultCount">Показано ${state.requests.length}</p></div><button data-open-wizard>${svgIcon('plus', 15)} Новая заявка</button></div><form class="filters compact" id="requestFilters"><label class="search-field"><span>Поиск</span><input name="query" placeholder="Маршрут или номер"></label><label><span>Статус</span><select name="status"><option value="all">Все статусы</option><option value="active">Активные торги</option><option value="waiting">Ожидают выбора</option><option value="draft">Черновики</option><option value="chosen">Исполнитель выбран</option></select></label><label><span>Маршрут</span><select name="route"><option value="all">Все направления</option><option value="Москва">В Москву</option><option value="Казань">В Казань</option></select></label><label><span>Сортировка</span><select name="sort"><option value="new">Сначала новые</option><option value="ending">Ближайшее завершение</option></select></label><button class="button dark" type="submit">Применить</button></form><div class="request-list-head"><span>Маршрут и груз</span><span>Статус</span><span>Стоимость</span><span>Торги</span><span></span></div><div class="request-list" id="requestList">${state.requests.map(requestRow).join('')}</div></section>`;
   }
 
   function detailHero(request, forForwarder = false) {
@@ -584,7 +713,7 @@
   }
 
   function infoCard(request) {
-    return `<article class="info-card"><h3>Параметры груза</h3><div class="info-list"><div><span>Готовность</span><b>${escapeHtml(request.ready)}</b></div><div><span>Мест</span><b>${escapeHtml(request.places || '—')}</b></div><div><span>Тип логистики</span><b>${escapeHtml(request.logistics)}</b></div><div><span>Транспорт</span><b>${escapeHtml(request.transport)}</b></div><div><span>Услуги</span><b>${escapeHtml(request.services.join(', ') || 'Не указаны')}</b></div><div><span>Комментарий</span><b>${escapeHtml(request.details || 'Нет')}</b></div></div></article>`;
+    return `<article class="info-card"><h3>Параметры груза</h3><div class="info-list"><div><span>Готовность</span><b>${escapeHtml(formatDate(request.ready))}</b></div><div><span>Мест</span><b>${escapeHtml(request.places || '—')}</b></div><div><span>Тип логистики</span><b>${escapeHtml(request.logistics)}</b></div><div><span>Транспорт</span><b>${escapeHtml(request.transport)}</b></div><div><span>Услуги</span><b>${escapeHtml(request.services.join(', ') || 'Не указаны')}</b></div><div><span>Комментарий</span><b>${escapeHtml(request.details || 'Нет')}</b></div></div></article>`;
   }
 
   function offerRows(request, anonymized = false) {
@@ -601,40 +730,38 @@
     const request = findRequest(id);
     if (!request) return notFound('Заявка не найдена', 'Вернитесь к списку и выберите другую заявку.', 'client/requests');
     const chosen = request.offers.find((offer) => offer.id === request.chosenOfferId);
-    return `<div class="request-page"><div>${detailHero(request)}<div class="offer-toolbar"><div><h2>Предложения экспедиторов</h2><p>Цены в разных валютах не конвертируются автоматически</p></div><div class="view-toggle"><button class="active">Таблица</button><button>Карточки</button></div></div>${offerRows(request)}</div><aside class="detail-side">${infoCard(request)}${chosen ? `<article class="info-card"><h3>Выбранный исполнитель</h3><div class="company-cell"><i class="company-logo">${escapeHtml(chosen.mark)}</i><span><b>${escapeHtml(chosen.company)}</b><small>✓ контакты открыты</small></span></div><div class="info-list spaced"><div><span>WeChat</span><b>dragonbridge_cn</b></div><div><span>Телефон</span><b>+86 138 *** 5688</b></div><div><span>Сделка</span><b>Ожидает подтверждения</b></div></div><button class="button dark block" data-route="client/deals">Открыть сделку →</button></article>` : `<article class="info-card"><h3>Контакты защищены</h3><p>Контакты сторон откроются только после окончательного выбора конкретного предложения.</p></article>`}</aside></div>`;
+    const deal = state.deals.find((item) => item.requestId === request.id);
+    return `<div class="request-page"><div>${detailHero(request)}<div class="offer-toolbar"><div><h2>Предложения экспедиторов</h2><p>Цены в разных валютах не конвертируются автоматически</p></div>${SHOW_OFFER_VIEW_TOGGLE ? '<div class="view-toggle"><button class="active">Таблица</button><button>Карточки</button></div>' : ''}</div>${offerRows(request)}</div><aside class="detail-side">${infoCard(request)}${chosen ? `<article class="info-card"><h3>Выбранный исполнитель</h3><div class="company-cell"><i class="company-logo">${escapeHtml(chosen.mark)}</i><span><b>${escapeHtml(chosen.company)}</b><small>✓ контакты открыты</small></span></div><div class="info-list spaced"><div><span>WeChat</span><b>dragonbridge_cn</b></div><div><span>Телефон</span><b>+86 138 *** 5688</b></div><div><span>Сделка</span><b>${escapeHtml(deal ? dealStatus(deal).label : 'Ожидает подтверждения')}</b></div></div><button class="button dark block" data-route="client/deals">Открыть сделку →</button></article>` : `<article class="info-card"><h3>Контакты защищены</h3><p>Контакты сторон откроются только после окончательного выбора конкретного предложения.</p></article>`}</aside></div>`;
+  }
+
+  function companyRow(company) {
+    return `<article class="company-row"><div class="company-cell"><i class="company-logo">${escapeHtml(company.mark)}</i><span><b>${escapeHtml(company.name)}</b><small>${escapeHtml(company.city)} · Китай · проверена</small></span></div><span class="company-services">${escapeHtml(company.spec)}</span><b>${escapeHtml(company.rating)}</b><b>${escapeHtml(company.deals)}</b><button class="button ghost small" data-action="company-profile">Профиль ${svgIcon('arrow', 15)}</button></article>`;
   }
 
   function companiesView() {
-    const companies = [
-      ['Dragon Bridge','龙','Гуанчжоу','Карго · Авто · Ж/д','4,9','126'],
-      ['Yunhe Logistics','云','Иу','Официальная · Ж/д · Таможня','4,8','89'],
-      ['SinoLine','海','Шэньчжэнь','Море · Авиа · Авто','4,7','74'],
-      ['EastRail Cargo','铁','Сиань','Официальная · Ж/д','4,8','62']
-    ];
-    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Проверенные экспедиторы</h2><p>Компании, допущенные к торгам</p></div></div><form class="filters compact"><label><span>Город отправления</span><select><option>Весь Китай</option><option>Гуанчжоу</option><option>Иу</option><option>Шэньчжэнь</option></select></label><label><span>Вид логистики</span><select><option>Любой</option><option>Карго</option><option>Официальная</option></select></label><label><span>Транспорт</span><select><option>Все виды</option><option>Авто</option><option>Ж/д</option><option>Море</option><option>Авиа</option></select></label><label><span>Услуги</span><select><option>Любые</option><option>Таможня</option><option>Страхование</option><option>До двери</option></select></label><button class="button dark">Найти</button></form><div class="company-list-head"><span>Компания</span><span>Специализация</span><span>Рейтинг</span><span>Сделок</span><span></span></div><div class="company-list">${companies.map((company) => `<article class="company-row"><div class="company-cell"><i class="company-logo">${company[1]}</i><span><b>${company[0]}</b><small>${company[2]} · Китай · проверена</small></span></div><span class="company-services">${company[3]}</span><b>${company[4]}</b><b>${company[5]}</b><button class="button ghost small" data-action="company-profile">Профиль ${svgIcon('arrow', 15)}</button></article>`).join('')}</div></section>`;
+    const options = (values) => values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    const cities = [...new Set(companies.map((company) => company.city))];
+    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Проверенные экспедиторы</h2><p id="companyResultCount">Компании, допущенные к торгам: ${companies.length}</p></div></div><form class="filters compact" id="companyFilters"><label><span>Город отправления</span><select name="city"><option value="all">Весь Китай</option>${options(cities)}</select></label><label><span>Вид логистики</span><select name="logistics"><option value="all">Любой</option>${options(['Карго', 'Официальная'])}</select></label><label><span>Транспорт</span><select name="transport"><option value="all">Все виды</option>${options(['Авто', 'Ж/д', 'Море', 'Авиа'])}</select></label><label><span>Услуги</span><select name="services"><option value="all">Любые</option>${options(['Таможня', 'Страхование', 'До двери'])}</select></label><button class="button dark" type="submit">Найти</button></form><div class="company-list-head"><span>Компания</span><span>Специализация</span><span>Рейтинг</span><span>Сделок</span><span></span></div><div class="company-list" id="companyList">${companies.map(companyRow).join('')}</div></section>`;
   }
 
   function dealsView(role) {
-    if (!state.deals.length) return notFound('Сделок пока нет', 'Сделка появится после выбора предложения грузовладельцем.', `${role}/dashboard`);
-    return `<div class="request-list">${state.deals.map((deal) => {
+    const deals = visibleDeals(role);
+    if (!deals.length) return notFound('Сделок пока нет', 'Сделка появится после выбора предложения грузовладельцем.', `${role}/dashboard`);
+    return `<div class="request-list">${deals.map((deal) => {
       const request = findRequest(deal.requestId);
-      const offer = request?.offers.find((item) => item.id === request.chosenOfferId);
-      return `<article class="panel"><div class="panel-head"><div><h2>${escapeHtml(deal.id)} · ${escapeHtml(request?.from)} → ${escapeHtml(request?.to)}</h2><p>Связана с заявкой ${escapeHtml(deal.requestId)}</p></div><span class="status waiting">${escapeHtml(deal.status)}</span></div><div class="detail-stats on-light"><span><small>Исполнитель</small><b>${escapeHtml(offer?.company || 'Не выбран')}</b></span><span><small>Итоговая стоимость</small><b>${offer ? money(offer.price,offer.currency) : '—'}</b></span><span><small>Доставка</small><b>${escapeHtml(deal.delivery)}</b></span></div><div class="heading-actions deal-actions"><button class="button dark" data-action="confirm-deal">Подтвердить сделку</button><button class="button ghost" data-action="deal-details">Карточка сделки →</button></div></article>`;
+      const offer = dealOffer(deal);
+      const status = dealStatus(deal);
+      const confirmButton = status.confirmed ? ''
+        : deal.confirmations?.[role] ? '<button class="button ghost" disabled>Вы подтвердили</button>'
+        : `<button class="button dark" data-action="confirm-deal" data-deal-id="${escapeHtml(deal.id)}">Подтвердить сделку</button>`;
+      return `<article class="panel"><div class="panel-head"><div><h2>${escapeHtml(deal.id)} · ${escapeHtml(request?.from)} → ${escapeHtml(request?.to)}</h2><p>Связана с заявкой ${escapeHtml(deal.requestId)}</p></div><span class="status ${status.className}">${escapeHtml(status.label)}</span></div><div class="detail-stats on-light"><span><small>Исполнитель</small><b>${escapeHtml(offer?.company || 'Не выбран')}</b></span><span><small>Итоговая стоимость</small><b>${offer ? money(offer.price,offer.currency) : '—'}</b></span><span><small>Доставка</small><b>${escapeHtml(deal.delivery)}</b></span></div><div class="heading-actions deal-actions">${confirmButton}<button class="button ghost" data-action="deal-details">Карточка сделки →</button></div></article>`;
     }).join('')}</div>`;
   }
 
   function notificationsView(role) {
-    const items = role === 'client' ? [
-      ['价','Новая цена по заявке HR-1048','Dragon Bridge обновила стоимость до 186 000 ₽','12 минут назад'],
-      ['新','Новое предложение по HR-1051','EastRail Cargo предложила доставку за 21 день','18 минут назад'],
-      ['时','Торги HR-1039 завершены','Выберите одно из двух актуальных предложений','1 час назад'],
-      ['验','Компания прошла проверку','Yunhe Logistics доступна в каталоге','вчера']
-    ] : [
-      ['邀','Новое приглашение','Клиент приглашает к торгам по HR-1051','8 минут назад'],
-      ['价','Ваша ставка сейчас лучшая','Предложение по HR-1048 лидирует по цене','12 минут назад'],
-      ['时','До закрытия торгов 2 часа','Заявка HR-1048','5 часов назад']
-    ];
-    return `<section class="panel"><div class="panel-head"><div><h2>Центр уведомлений</h2><p>Непрочитанные события отмечены красным</p></div><button data-action="read-all">Прочитать все</button></div><div class="activity-list on-light">${items.map((item,index) => `<div class="activity-item"><i>${item[0]}</i><span><b>${item[1]}</b><small>${item[2]}</small></span><time>${item[3]}</time></div>`).join('')}</div></section>`;
+    const read = Boolean(state.notificationsRead?.[role]);
+    const button = read ? '<button disabled>Все прочитаны</button>' : '<button data-action="read-all">Прочитать все</button>';
+    return `<section class="panel"><div class="panel-head"><div><h2>Центр уведомлений</h2><p>Непрочитанные события отмечены красным</p></div>${button}</div><div class="activity-list on-light">${notifications[role].map((item) => `<div class="activity-item${read ? '' : ' unread'}"><i>${item[0]}</i><span><b>${item[1]}</b><small>${item[2]}</small></span><time>${item[3]}</time></div>`).join('')}</div></section>`;
   }
 
   function forwarderDashboard() {
@@ -648,23 +775,23 @@
 
   function loadCard(request) {
     const best = bestOffer(request);
-    return `<article class="load-card" data-open-load="${request.id}" tabindex="0"><div class="load-card-top"><span class="status ${request.id === 'HR-1051' ? 'waiting' : 'active'}">${request.id === 'HR-1051' ? '邀 Приглашение' : '● Идут торги'}</span><small>${request.id}</small></div><div class="load-route"><span><b>${escapeHtml(request.fromZh)}</b><small>${escapeHtml(request.from)}</small></span><i>→</i><span><b>${escapeHtml(request.toZh)}</b><small>${escapeHtml(request.to)}</small></span></div><div class="load-tags"><span>${request.weight} кг</span><span>${request.volume} м³</span><span>${escapeHtml(request.logistics)}</span><span>${escapeHtml(request.transport)}</span></div><dl><div><dt>Категория</dt><dd>${escapeHtml(request.category)}</dd></div><div><dt>Груз готов</dt><dd>${escapeHtml(request.ready)}</dd></div><div><dt>До закрытия</dt><dd>${timerLabel(request.timeLeft)}</dd></div></dl><div class="load-card-foot"><span><small>Текущая лучшая цена</small><b>${best ? money(best.price,best.currency) : 'Нет ставок'}</b></span><button data-open-bid="${request.id}">Сделать ставку / 报价</button></div></article>`;
+    return `<article class="load-card" data-open-load="${request.id}" tabindex="0"><div class="load-card-top"><span class="status ${request.id === 'HR-1051' ? 'waiting' : 'active'}">${request.id === 'HR-1051' ? '邀 Приглашение' : '● Идут торги'}</span><small>${request.id}</small></div><div class="load-route"><span><b>${escapeHtml(request.fromZh)}</b><small>${escapeHtml(request.from)}</small></span><i>→</i><span><b>${escapeHtml(request.toZh)}</b><small>${escapeHtml(request.to)}</small></span></div><div class="load-tags"><span>${request.weight} кг</span><span>${request.volume} м³</span><span>${escapeHtml(request.logistics)}</span><span>${escapeHtml(request.transport)}</span></div><dl><div><dt>Категория</dt><dd>${escapeHtml(request.category)}</dd></div><div><dt>Груз готов</dt><dd>${escapeHtml(formatDate(request.ready))}</dd></div><div><dt>До закрытия</dt><dd>${timerLabel(request.timeLeft)}</dd></div></dl><div class="load-card-foot"><span><small>Текущая лучшая цена</small><b>${best ? money(best.price,best.currency) : 'Нет ставок'}</b></span><button data-open-bid="${request.id}">Сделать ставку / 报价</button></div></article>`;
   }
 
   function loadTableRow(request) {
     const best = bestOffer(request);
-    return `<article class="load-row" data-open-load="${escapeHtml(request.id)}" tabindex="0"><div>${routeSignature(request, { compact: true, forwarder: true })}<small>${escapeHtml(request.id)}${request.id === 'HR-1051' ? ' · приглашение' : ''}</small></div><span><b>${escapeHtml(request.category)}</b><small>${escapeHtml(request.weight)} кг · ${escapeHtml(request.volume)} м³</small></span><span><b>${escapeHtml(request.ready)}</b><small>${escapeHtml(request.logistics)}</small></span><span><b>${best ? money(best.price,best.currency) : 'Нет ставок'}</b><small>${request.offers.length} предлож.</small></span><span><b>${timerLabel(request.timeLeft)}</b><small>${escapeHtml(request.transport)}</small></span><button class="button ghost small" data-open-bid="${escapeHtml(request.id)}">Ставка</button></article>`;
+    return `<article class="load-row" data-open-load="${escapeHtml(request.id)}" tabindex="0"><div>${routeSignature(request, { compact: true, forwarder: true })}<small>${escapeHtml(request.id)}${request.id === 'HR-1051' ? ' · приглашение' : ''}</small></div><span><b>${escapeHtml(request.category)}</b><small>${escapeHtml(request.weight)} кг · ${escapeHtml(request.volume)} м³</small></span><span><b>${escapeHtml(formatDate(request.ready))}</b><small>${escapeHtml(request.logistics)}</small></span><span><b>${best ? money(best.price,best.currency) : 'Нет ставок'}</b><small>${request.offers.length} предлож.</small></span><span><b>${timerLabel(request.timeLeft)}</b><small>${escapeHtml(request.transport)}</small></span><button class="button ghost small" data-open-bid="${escapeHtml(request.id)}">Ставка</button></article>`;
   }
 
   function loadsView() {
     const loads = activeRequests();
-    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Открытые заявки</h2><p>${loads.length} грузов по направлению Китай → Россия</p></div></div><form class="filters compact" id="loadFilters"><label><span>Откуда</span><select name="from"><option value="all">Весь Китай</option>${[...new Set(loads.map((item) => item.from))].map((value) => `<option>${escapeHtml(value)}</option>`).join('')}</select></label><label><span>Куда</span><select name="to"><option value="all">Вся Россия</option>${[...new Set(loads.map((item) => item.to))].map((value) => `<option>${escapeHtml(value)}</option>`).join('')}</select></label><label><span>Тип логистики</span><select name="logistics"><option value="all">Любой</option><option>Карго</option><option>Официальная</option></select></label><label><span>Сортировка</span><select><option>Сначала новые</option><option>Скоро завершатся</option><option>По весу</option></select></label><button class="button dark" type="submit">Найти</button></form><div class="load-list-head"><span>Маршрут</span><span>Груз</span><span>Готовность</span><span>Лучшая цена</span><span>До закрытия</span><span></span></div><div class="load-table" id="loadGrid">${loads.map(loadTableRow).join('')}</div></section>`;
+    return `<section class="panel table-panel data-panel"><div class="panel-head"><div><h2>Открытые заявки</h2><p>${loads.length} грузов по направлению Китай → Россия</p></div></div><form class="filters compact" id="loadFilters"><label><span>Откуда</span><select name="from"><option value="all">Весь Китай</option>${[...new Set(loads.map((item) => item.from))].map((value) => `<option>${escapeHtml(value)}</option>`).join('')}</select></label><label><span>Куда</span><select name="to"><option value="all">Вся Россия</option>${[...new Set(loads.map((item) => item.to))].map((value) => `<option>${escapeHtml(value)}</option>`).join('')}</select></label><label><span>Тип логистики</span><select name="logistics"><option value="all">Любой</option><option>Карго</option><option>Официальная</option></select></label><label><span>Сортировка</span><select name="sort"><option value="new">Сначала новые</option><option value="ending">Скоро завершатся</option><option value="weight">Сначала тяжёлые</option></select></label><button class="button dark" type="submit">Найти</button></form><div class="load-list-head"><span>Маршрут</span><span>Груз</span><span>Готовность</span><span>Лучшая цена</span><span>До закрытия</span><span></span></div><div class="load-table" id="loadGrid">${loads.map(loadTableRow).join('')}</div></section>`;
   }
 
   function loadDetail(id) {
     const request = findRequest(id);
     if (!request) return notFound('Груз не найден', 'Вернитесь к бирже и выберите другую заявку.', 'forwarder/loads');
-    return `<div class="load-detail"><div>${detailHero(request,true)}<div class="offer-toolbar"><div><h2>竞争报价 · Предложения участников</h2><p>Названия конкурентов скрыты до завершения торгов</p></div><button class="button primary" data-open-bid="${escapeHtml(request.id)}">＋ Сделать ставку / 报价</button></div>${offerRows(request,true)}</div><aside class="detail-side">${infoCard(request)}<article class="info-card"><h3>Правила торгов</h3><div class="info-list"><div><span>Ваших вариантов</span><b>${request.offers.filter((offer) => offer.mine).length} из 3</b></div><div><span>Изменение ставки</span><b>после таймера</b></div><div><span>Контакты клиента</span><b>скрыты</b></div></div><button class="button dark block" data-open-bid="${escapeHtml(request.id)}">Отправить предложение →</button></article></aside></div>`;
+    return `<div class="load-detail"><div>${detailHero(request,true)}<div class="offer-toolbar"><div><h2>竞争报价 · Предложения участников</h2><p>Названия конкурентов скрыты до завершения торгов</p></div><button class="button primary" data-open-bid="${escapeHtml(request.id)}">＋ Сделать ставку / 报价</button></div>${offerRows(request,true)}</div><aside class="detail-side">${infoCard(request)}<article class="info-card"><h3>Правила торгов</h3><div class="info-list"><div><span>Ваших вариантов</span><b>${request.offers.filter((offer) => offer.mine).length} из 3</b></div><div><span>Изменение ставки</span><b>${request.status === 'active' ? 'до конца торгов' : 'торги завершены'}</b></div><div><span>Контакты клиента</span><b>скрыты</b></div></div><button class="button dark block" data-open-bid="${escapeHtml(request.id)}">Отправить предложение →</button></article></aside></div>`;
   }
 
   function myOffersView() {
@@ -746,9 +873,9 @@
     const data = requestFormData();
     $('#requestReview').innerHTML = [
       ['Маршрут', `${data.from} → ${data.to}`], ['Груз', `${data.category} · ${data.weight} кг · ${data.volume} м³`],
-      ['Готовность', data.ready], ['Логистика', `${data.logistics} · ${data.transport}`],
+      ['Готовность', formatDate(data.ready)], ['Логистика', `${data.logistics} · ${data.transport}`],
       ['Бюджет', data.budget ? `${Number(data.budget).toLocaleString('ru-RU')} ${data.currency}` : 'Не указан'],
-      ['Срок торгов', `${data.auctionDuration} часов`]
+      ['Срок торгов', durationLabel(data.auctionDuration)]
     ].map(([label, value]) => `<div><small>${label}</small><b>${escapeHtml(value)}</b></div>`).join('');
   }
 
@@ -765,7 +892,7 @@
     const data = requestFormData();
     const id = `HR-${state.requestCounter++}`;
     const request = {
-      id, status: 'active', from: data.from, fromZh: data.from, to: data.to, toZh: data.to,
+      id, status: 'active', from: data.from.trim(), fromZh: cityZh(data.from), to: data.to.trim(), toZh: cityZh(data.to),
       category: data.category, weight: Number(data.weight), volume: Number(data.volume), places: Number(data.places || 0),
       ready: data.ready, logistics: data.logistics, transport: data.transport, auctionDuration: Number(data.auctionDuration),
       timeLeft: Number(data.auctionDuration) * 3600, budget: Number(data.budget || 0), currency: data.currency,
@@ -798,7 +925,7 @@
   function saveDraft() {
     const data = requestFormData();
     const id = `DRAFT-${Date.now().toString().slice(-5)}`;
-    state.requests.unshift({ id, status: 'draft', from: data.from || 'Не указано', fromZh: data.from || '', to: data.to || 'Не указано', toZh: data.to || '', category: data.category || 'Не указано', weight: Number(data.weight || 0), volume: Number(data.volume || 0), places: Number(data.places || 0), ready: data.ready || 'Не указано', logistics: data.logistics || 'Карго', transport: data.transport || 'Не важно', auctionDuration: Number(data.auctionDuration || 48), timeLeft: 0, budget: Number(data.budget || 0), currency: data.currency || 'RUB', services: data.services || [], details: data.details || '', offers: [] });
+    state.requests.unshift({ id, status: 'draft', from: data.from?.trim() || 'Не указано', fromZh: cityZh(data.from), to: data.to?.trim() || 'Не указано', toZh: cityZh(data.to), category: data.category || 'Не указано', weight: Number(data.weight || 0), volume: Number(data.volume || 0), places: Number(data.places || 0), ready: data.ready || 'Не указано', logistics: data.logistics || 'Карго', transport: data.transport || 'Не важно', auctionDuration: Number(data.auctionDuration || 48), timeLeft: 0, budget: Number(data.budget || 0), currency: data.currency || 'RUB', services: data.services || [], details: data.details || '', offers: [] });
     saveState();
     closeOverlays();
     showToast('Черновик сохранён', 'Вернуться к нему можно в разделе «Мои заявки»');
@@ -810,7 +937,7 @@
     if (!request) return;
     selectedLoadId = requestId;
     const myExisting = request.offers.find((offer) => offer.mine);
-    $('#selectedLoadSummary').innerHTML = `<b>${escapeHtml(request.fromZh)} ${escapeHtml(request.from)} → ${escapeHtml(request.toZh)} ${escapeHtml(request.to)}</b><small>${escapeHtml(request.id)} · ${escapeHtml(request.weight)} кг · ${escapeHtml(request.volume)} м³ · ${escapeHtml(request.category)}</small>`;
+    $('#selectedLoadSummary').innerHTML = `<b>${escapeHtml(cityLabel(request.fromZh, request.from))} → ${escapeHtml(cityLabel(request.toZh, request.to))}</b><small>${escapeHtml(request.id)} · ${escapeHtml(request.weight)} кг · ${escapeHtml(request.volume)} м³ · ${escapeHtml(request.category)}</small>`;
     const form = $('#bidForm');
     form.reset();
     form.elements.price.value = myExisting?.price || Math.max(1, Math.round((bestOffer(request)?.price || request.budget || 190000) * .97));
@@ -868,21 +995,58 @@
 
   function filterRequests(form) {
     const data = Object.fromEntries(new FormData(form));
-    const filtered = state.requests.filter((request) => {
+    let filtered = state.requests.filter((request) => {
       const query = (data.query || '').toLowerCase();
       return (data.status === 'all' || request.status === data.status)
         && (data.route === 'all' || request.to === data.route)
         && (!query || `${request.id} ${request.from} ${request.to}`.toLowerCase().includes(query));
     });
+    if (data.sort === 'ending') filtered = sortByEnding(filtered);
     $('#requestList').innerHTML = filtered.map(requestRow).join('') || `<div class="empty-state"><span>路</span><h2>Ничего не найдено</h2><p>Измените фильтры и попробуйте снова.</p></div>`;
     $('#requestResultCount').textContent = `Показано ${filtered.length}`;
+    applyPlatformLanguage($('#viewRoot'));
   }
 
   function filterLoads(form) {
     const data = Object.fromEntries(new FormData(form));
-    const filtered = activeRequests().filter((request) => (data.from === 'all' || request.from === data.from) && (data.to === 'all' || request.to === data.to) && (data.logistics === 'all' || request.logistics === data.logistics));
+    let filtered = activeRequests().filter((request) => (data.from === 'all' || request.from === data.from) && (data.to === 'all' || request.to === data.to) && (data.logistics === 'all' || request.logistics === data.logistics));
+    if (data.sort === 'ending') filtered = sortByEnding(filtered);
+    if (data.sort === 'weight') filtered = filtered.slice().sort((a, b) => b.weight - a.weight);
     $('#loadGrid').innerHTML = filtered.map(loadTableRow).join('') || `<div class="empty-state"><span>货</span><h2>Подходящих грузов пока нет</h2><p>Попробуйте изменить маршрут или тип логистики.</p></div>`;
+    applyPlatformLanguage($('#viewRoot'));
     showToast('Фильтр применён', `Найдено заявок: ${filtered.length}`);
+  }
+
+  function filterCompanies(form) {
+    const data = Object.fromEntries(new FormData(form));
+    const matches = (values, selected) => selected === 'all' || values.includes(selected);
+    const filtered = companies.filter((company) => matches([company.city], data.city) && matches(company.logistics, data.logistics)
+      && matches(company.transport, data.transport) && matches(company.services, data.services));
+    $('#companyList').innerHTML = filtered.map(companyRow).join('') || `<div class="empty-state"><span>代</span><h2>Подходящих компаний нет</h2><p>Измените фильтры и попробуйте снова.</p></div>`;
+    $('#companyResultCount').textContent = `Компании, допущенные к торгам: ${filtered.length}`;
+    applyPlatformLanguage($('#viewRoot'));
+  }
+
+  function confirmDeal(dealId) {
+    const role = parseRoute().role;
+    const deal = state.deals.find((item) => item.id === dealId);
+    if (!deal || !role) return;
+    deal.confirmations = { client: false, forwarder: false, ...deal.confirmations, [role]: true };
+    const status = dealStatus(deal);
+    deal.status = status.label;
+    saveState();
+    render();
+    if (status.confirmed) showToast('Сделка подтверждена', 'Обе стороны подтвердили сделку. Комиссия начисляется только после доставки');
+    else showToast('Подтверждение отправлено', 'Сделка станет подтверждённой после ответа второй стороны');
+  }
+
+  function markNotificationsRead() {
+    const role = parseRoute().role;
+    if (!role) return;
+    state.notificationsRead = { ...state.notificationsRead, [role]: true };
+    saveState();
+    render();
+    showToast('Уведомления прочитаны', 'Новые события появятся в этом списке');
   }
 
   document.addEventListener('click', (event) => {
@@ -913,13 +1077,14 @@
     if (profileAction === 'settings') { closeOverlays(); showToast('Настройки', 'Язык интерфейса меняется кнопкой RU / 中文'); }
     if (profileAction === 'logout') {
       closeOverlays();
-      window.HaoruAuth?.signOut().finally(() => { location.href = '../index.html?auth=login'; });
+      resetDemoState();
+      Promise.resolve(window.HaoruAuth?.signOut()).finally(() => { location.href = '../index.html?auth=login'; });
     }
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (action === 'help') showToast('Подсказка', 'Сейчас используется закрытая тестовая версия платформы');
     if (action === 'company-profile') showToast('Профиль компании', 'В следующей итерации здесь появятся документы, маршруты и отзывы');
-    if (action === 'read-all') showToast('Уведомления прочитаны', 'Новых событий нет');
-    if (action === 'confirm-deal') showToast('Сделка подтверждена', 'Статус сделки обновлён');
+    if (action === 'read-all') markNotificationsRead();
+    if (action === 'confirm-deal') confirmDeal(event.target.closest('[data-action]').dataset.dealId);
     if (action === 'deal-details') showToast('Карточка сделки', 'Полный маршрут сделки добавим на следующем этапе');
     if (action === 'edit-profile') showToast('Редактирование профиля', 'В тестовом аккаунте компания уже прошла проверку');
   });
@@ -929,6 +1094,7 @@
     if (event.target.id === 'bidForm') submitBid(event);
     if (event.target.id === 'requestFilters') { event.preventDefault(); filterRequests(event.target); }
     if (event.target.id === 'loadFilters') { event.preventDefault(); filterLoads(event.target); }
+    if (event.target.id === 'companyFilters') { event.preventDefault(); filterCompanies(event.target); }
   });
 
   $('#wizardNext').addEventListener('click', () => { if (validateWizardStep()) { wizardStep = Math.min(3,wizardStep + 1); updateWizard(); } });
@@ -946,6 +1112,7 @@
   $('#cargoPhotoInput').addEventListener('change', (event) => selectCargoPhoto(event.target.files?.[0]));
   $('#languageButton').addEventListener('click', () => {
     state.language = state.language === 'ru' ? 'zh' : 'ru';
+    try { localStorage.setItem(LANGUAGE_KEY, state.language); } catch (error) { /* language stays for this page only */ }
     saveState();
     render();
     applyPlatformLanguage();
@@ -982,15 +1149,20 @@
       if (offline) showToast('Нет связи, попробуйте позже', 'Кабинет открыт по сохранённой сессии');
       const role = window.HaoruAuth.roleFromSession(authSession);
       if (!role) {
+        resetDemoState();
         await window.HaoruAuth.signOut();
         location.href = '../index.html?auth=login';
         return;
       }
+      bindDemoStateToOwner(`user:${authSession.user?.id || 'unknown'}`);
       const route = parseRoute();
       if (route.gate || route.role !== role) {
         go(window.HaoruAuth.routeForRole(role));
         return;
       }
+    } else {
+      // Without Supabase both roles share one demo marketplace on purpose: request → offer → choice.
+      bindDemoStateToOwner('demo');
     }
     render();
   }
